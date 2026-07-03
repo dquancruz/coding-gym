@@ -1,7 +1,10 @@
 # Tracker
 
-**Fase activa:** 🟦 Fase 1 — Núcleo full-stack JS/TS
-**Racha actual:** 2 días | **Último ejercicio:** 2026-07-02 — TS 0002 reservas-gimnasio (corrección 2, veredicto 🟨 — bug resuelto, falta subir Explicación para contar hacia ascenso)
+**Path elegido:** Path 1 — Full-stack Web
+**Fase activa:** 🟦 Junior→Mid (Path 1)
+**Racha actual:** 2 días
+**Ejercicio actual:** TS 0003 cola-soporte — asignado 2026-07-02, pendiente de `revisar`.
+**Último revisado:** TS 0002 reservas-gimnasio — 🟨 (2026-07-02, PR #2 mergeado a `main`).
 
 ## Distribución de esta fase
 - 🔵 Primario: TypeScript (rota a React/Next cuando TS llegue a 🟨 estable)
@@ -12,7 +15,7 @@
 
 | Track | Skill | Nivel | Última práctica | Ejercicios al nivel objetivo |
 |---|---|---|---|---|
-| TypeScript | tipos básicos (interfaces, unions) | 🟥 | 2026-07-02 (0002 reservas-gimnasio, veredicto 🟨) | 0/3 (Explicación=2 bloquea el conteo) |
+| TypeScript | tipos básicos (interfaces, unions) | 🟥 | 2026-07-02 (0002 reservas-gimnasio, 🟨 — ver `log.md`) | 0/3 (2 intentos: 0001 🟥, 0002 🟨 — Explicación=2 sigue frenando) |
 | TypeScript | genéricos y utility types | 🟥 | — | 0/3 |
 | TypeScript | discriminated unions / type guards | 🟥 | — | 0/3 |
 | TypeScript | validación runtime (Zod) | 🟥 | — | 0/3 |
@@ -32,4 +35,7 @@
 
 > Claude Code: actualiza esta tabla después de cada `revisar`. Agrega filas
 > nuevas de skills según se vayan necesitando (sigue el checklist del
-> `README.md` de cada track).
+> `README.md` de cada track). El nivel puede llegar hasta 🟦 (Senior) — ver
+> Rúbrica Mid→Senior en `CLAUDE.md`. Si `determinar nivel` confirmó un nivel
+> de entrada sin arrancar desde 0/3, anótalo en la columna correspondiente
+> (p. ej. "confirmado por diagnóstico, 2026-07-03" en vez de "0/3").
