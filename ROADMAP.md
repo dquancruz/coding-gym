@@ -40,9 +40,35 @@ pero sin crecer, el núcleo JS/TS+Python como base no-negociable).
 | 9 | C# / .NET | C# | ASP.NET Core, EF Core, xUnit | Mantenimiento — enterprise Microsoft |
 | 10 | Ruby on Rails | Ruby | Rails, RSpec | Mantenimiento — startups/prototipado |
 
-## Fases
+## Paths
 
-### 🟦 Fase 1 — Núcleo full-stack JS/TS (ACTIVA — empezamos aquí)
+Este repo ya no asume una única progresión lineal para todo el mundo: cada
+persona que lo use elige uno de estos 3 paths con el comando `elegir path`
+(ver `CLAUDE.md`). Cada path tiene su propia secuencia de fases, de **Junior a
+Senior**. Fundamentos y el mantenimiento rotativo de Java/.NET/Rails corren
+igual en los 3 paths (ver sección "Continuo" al final).
+
+| # | Path | Enfoque | Para quién es |
+|---|---|---|---|
+| 1 | **Full-stack Web** | TypeScript → React/Next.js → Node backend | Quiere el rol full-stack de mayor demanda ahora mismo; le da igual frontend o backend, quiere ambos |
+| 2 | **Backend & Datos** | Python (+FastAPI) → SQL & bases de datos | Se inclina por backend/datos, quiere una base sólida antes de (opcionalmente) saltar a IA después |
+| 3 | **IA Aplicada** | Python + ML/LLMs/RAG → Fundamentos de despliegue (MLOps) | Ya tiene una base de programación razonable y quiere ir directo a IA aplicada, no ML clásico de notebook |
+
+Un mismo track (p. ej. Python) puede aparecer en más de un path — lo que
+cambia es el **rol** que juega (primario vs. paso previo) y qué viene después.
+Se puede cambiar de path en cualquier momento con `elegir path`; el progreso
+ya hecho en otros tracks no se pierde, solo deja de ser prioridad.
+
+## Fases por path
+
+Cada path tiene una fase **Junior→Mid** (llegar a producción sin guía) y una
+fase **Mid→Senior** (diseño, ambigüedad, liderazgo técnico — ver Rúbrica
+Mid→Senior en `CLAUDE.md`). La fase activa de cada path se registra en
+`progress/tracker.md`.
+
+### Path 1 — Full-stack Web
+
+#### 🟦 Junior→Mid (empieza aquí si el path recién se eligió)
 **Duración orientativa:** 8–10 semanas.
 
 - 🔵 Primario: **TypeScript** → en cuanto tengas 🟨 sólido en tipos/async, el
@@ -56,18 +82,50 @@ pero sin crecer, el núcleo JS/TS+Python como base no-negociable).
 🟥→🟨, y puedo armar un mini full-stack (frontend Next + API Node) end-to-end
 sin guía.
 
-### 🟩 Fase 2 — Backend + datos
+#### 🟦 Mid→Senior
+**Duración orientativa:** 8–12 semanas, no tiene fin fijo — es mejora continua.
+
+- 🔵 Primario: diseño de arquitectura frontend/backend (RSC vs. client
+  components, estrategias de cache, límites de servicio, contratos de API)
+- 🟢 Secundario: performance a escala (Core Web Vitals, N+1, rate limiting,
+  observabilidad) y mentoring (revisar código/diseño de un compañero real o
+  de `solutions/` de otros tracks)
+- ⚪ Mantenimiento: igual que antes, rotando
+
+**Criterio de salida (no hay "salida" real, pero para pasar a mantenimiento
+sostenido):** puedo tomar un requerimiento ambiguo de negocio, proponerlo
+como RFC corto con alternativas descartadas, implementarlo full-stack, y
+dejarlo documentado para que otra persona lo opere sin preguntarme.
+
+### Path 2 — Backend & Datos
+
+#### 🟩 Junior→Mid (empieza aquí si el path recién se eligió)
 **Duración orientativa:** 8–10 semanas.
 
 - 🔵 Primario: **Python** (+ FastAPI)
 - 🟢 Secundario: **SQL & bases de datos**
-- ⚪ Mantenimiento (rotando): TS/React/Node (ya no primario, pero activo),
-  Fundamentos (Docker/CI sube de intensidad), Java, .NET, Rails
+- ⚪ Mantenimiento (rotando): TS/React/Node, Fundamentos (Docker/CI sube de
+  intensidad), Java, .NET, Rails
 
 **Criterio de salida:** Python en 🟨/🟩 + SQL en 🟨, puedo construir una API
 con persistencia real, tests y Docker, sin guía.
 
-### 🟪 Fase 3 — Especialización en IA aplicada
+#### 🟩 Mid→Senior
+**Duración orientativa:** 8–12 semanas, mejora continua.
+
+- 🔵 Primario: diseño de datos y servicios (modelado para escala, migraciones
+  sin downtime, particionamiento/índices, consistencia vs. disponibilidad)
+- 🟢 Secundario: operabilidad (observabilidad, SLOs, manejo de incidentes) y
+  mentoring (revisar esquemas/PRs ajenos)
+- ⚪ Mantenimiento: igual que antes, rotando
+
+**Criterio de salida:** puedo diseñar el modelo de datos y la arquitectura de
+un servicio nuevo desde un requerimiento ambiguo, documentar los tradeoffs, y
+anticipar cómo falla bajo carga o con datos corruptos.
+
+### Path 3 — IA Aplicada
+
+#### 🟪 Junior→Mid (empieza aquí si el path recién se eligió)
 **Duración orientativa:** 8–12 semanas.
 
 - 🔵 Primario: **Machine Learning / IA** (foco en LLMs + RAG + MLOps, no solo
@@ -79,15 +137,34 @@ con persistencia real, tests y Docker, sin guía.
 **Criterio de salida:** puedo llevar un modelo/LLM de notebook a un endpoint
 servido con FastAPI + Docker, con evaluación básica de calidad de salida.
 
-### 🟫 Continuo (todas las fases)
+#### 🟪 Mid→Senior
+**Duración orientativa:** 8–12 semanas, mejora continua.
+
+- 🔵 Primario: diseño de sistemas de IA (elección de arquitectura RAG vs.
+  fine-tuning vs. prompting, evaluación rigurosa de calidad, costo/latencia)
+- 🟢 Secundario: MLOps a escala (versionado de modelos/datos, monitoreo de
+  drift, rollback seguro) y mentoring (revisar pipelines/prompts ajenos)
+- ⚪ Mantenimiento: igual que antes, rotando
+
+**Criterio de salida:** puedo diseñar y justificar por escrito la arquitectura
+de un sistema de IA de punta a punta (datos → modelo/prompt → evaluación →
+producción), incluyendo qué alternativas descarté y por qué.
+
+## Continuo (todos los paths, todas las fases)
 Java, .NET y Ruby on Rails se mantienen vivos con 1 ejercicio/semana cada uno
-en rotación, para no perder el músculo. Si tu objetivo de trabajo es
-**enterprise** (banca, seguros, gobierno), sube **Java o .NET** a secundario
-en la Fase 2. Si es **producto/startup**, sube **Rails** antes.
+en rotación, para no perder el músculo, sin importar el path elegido. Si tu
+objetivo de trabajo es **enterprise** (banca, seguros, gobierno), sube **Java
+o .NET** a secundario. Si es **producto/startup**, sube **Rails** antes.
 
 ## Cómo usar este archivo con Claude Code
-- Antes de generar un ejercicio sin track explícito, Claude debe leer la fase
-  ACTIVA aquí arriba y respetar la distribución 🔵/🟢/⚪.
+- Antes de generar un ejercicio sin track explícito, Claude debe leer el path
+  elegido y su fase ACTIVA en `progress/tracker.md`, y respetar la
+  distribución 🔵/🟢/⚪ de esa fase.
+- Cuando uses `elegir path`, Claude escribe el path elegido en
+  `progress/tracker.md` y aplica la distribución de su fase Junior→Mid (salvo
+  que `determinar nivel` ya haya confirmado nivel Mid o superior, en cuyo
+  caso arranca directo en Mid→Senior).
 - Cuando uses `siguiente fase`, Claude revisa el criterio de salida de la fase
-  activa contra `progress/tracker.md` y, si se cumple, marca la siguiente fase
-  como ACTIVA (edita este archivo).
+  activa DENTRO del path elegido contra `progress/tracker.md` y, si se
+  cumple, marca la siguiente fase de ese path como ACTIVA (edita este
+  archivo).
