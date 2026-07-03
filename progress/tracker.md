@@ -1,7 +1,7 @@
 # Tracker
 
 **Fase activa:** 🟦 Fase 1 — Núcleo full-stack JS/TS
-**Racha actual:** 1 día | **Último ejercicio:** 2026-07-01 — TS 0001 catalogo-carrito (corregido y revisado, 🟥 — resuelto con guía, no cuenta para ascenso)
+**Racha actual:** 2 días | **Último ejercicio:** 2026-07-02 — TS 0002 reservas-gimnasio (corrección 2, veredicto 🟨 — bug resuelto, falta subir Explicación para contar hacia ascenso)
 
 ## Distribución de esta fase
 - 🔵 Primario: TypeScript (rota a React/Next cuando TS llegue a 🟨 estable)
@@ -12,7 +12,7 @@
 
 | Track | Skill | Nivel | Última práctica | Ejercicios al nivel objetivo |
 |---|---|---|---|---|
-| TypeScript | tipos básicos (interfaces, unions) | 🟥 | 2026-07-01 (corregido con guía) | 0/3 |
+| TypeScript | tipos básicos (interfaces, unions) | 🟥 | 2026-07-02 (0002 reservas-gimnasio, veredicto 🟨) | 0/3 (Explicación=2 bloquea el conteo) |
 | TypeScript | genéricos y utility types | 🟥 | — | 0/3 |
 | TypeScript | discriminated unions / type guards | 🟥 | — | 0/3 |
 | TypeScript | validación runtime (Zod) | 🟥 | — | 0/3 |
