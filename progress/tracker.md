@@ -1,41 +1,41 @@
 # Tracker
 
-**Path elegido:** Path 1 — Full-stack Web
-**Fase activa:** 🟦 Junior→Mid (Path 1)
-**Racha actual:** 2 días
-**Ejercicio actual:** TS 0003 cola-soporte — asignado 2026-07-02, pendiente de `revisar`.
-**Último revisado:** TS 0002 reservas-gimnasio — 🟨 (2026-07-02, PR #2 mergeado a `main`).
+**Chosen path:** Path 1 — Full-stack Web
+**Active phase:** 🟦 Junior→Mid (Path 1)
+**Current streak:** 2 days
+**Current exercise:** TS 0003 cola-soporte — assigned 2026-07-02, pending `review`.
+**Last reviewed:** TS 0002 reservas-gimnasio — 🟨 (2026-07-02, PR #2 merged to `main`).
 
-## Distribución de esta fase
-- 🔵 Primario: TypeScript (rota a React/Next cuando TS llegue a 🟨 estable)
-- 🟢 Secundario: Node backend
-- ⚪ Mantenimiento (rotando 1/semana): SQL, Python, Fundamentos, Java, .NET, Ruby on Rails
+## This phase's distribution
+- 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
+- 🟢 Secondary: Node backend
+- ⚪ Maintenance (rotating 1/week): SQL, Python, Fundamentals, Java, .NET, Ruby on Rails
 
-## Niveles por skill
+## Levels per skill
 
-| Track | Skill | Nivel | Última práctica | Ejercicios al nivel objetivo |
+| Track | Skill | Level | Last practice | Exercises at target level |
 |---|---|---|---|---|
-| TypeScript | tipos básicos (interfaces, unions) | 🟥 | 2026-07-02 (0002 reservas-gimnasio, 🟨 — ver `log.md`) | 0/3 (2 intentos: 0001 🟥, 0002 🟨 — Explicación=2 sigue frenando) |
-| TypeScript | genéricos y utility types | 🟥 | — | 0/3 |
+| TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-02 (0002 reservas-gimnasio, 🟨 — see `log.md`) | 0/3 (2 attempts: 0001 🟥, 0002 🟨 — Explanation=2 still blocking) |
+| TypeScript | generics and utility types | 🟥 | — | 0/3 |
 | TypeScript | discriminated unions / type guards | 🟥 | — | 0/3 |
-| TypeScript | validación runtime (Zod) | 🟥 | — | 0/3 |
-| React/Next | componentes + hooks básicos | 🟥 | — | 0/3 |
+| TypeScript | runtime validation (Zod) | 🟥 | — | 0/3 |
+| React/Next | components + basic hooks | 🟥 | — | 0/3 |
 | React/Next | App Router (server/client components) | 🟥 | — | 0/3 |
 | React/Next | data fetching + Server Actions | 🟥 | — | 0/3 |
-| Node | REST básico + estructura por capas | 🟥 | — | 0/3 |
+| Node | basic REST + layered structure | 🟥 | — | 0/3 |
 | Node | auth (JWT) | 🟥 | — | 0/3 |
-| Node | manejo de errores centralizado | 🟥 | — | 0/3 |
-| SQL | SELECT/JOIN/agregaciones | 🟥 | — | 0/3 |
-| Python | sintaxis + typing básico | 🟥 | — | 0/3 |
-| Fundamentos | Git (ramas, rebase) | 🟥 | — | 0/3 |
-| Fundamentos | Docker básico | 🟥 | — | 0/3 |
-| Java | sintaxis + colecciones | 🟥 | — | 0/3 |
-| .NET | sintaxis + LINQ básico | 🟥 | — | 0/3 |
-| Ruby/Rails | sintaxis + ActiveRecord básico | 🟥 | — | 0/3 |
+| Node | centralized error handling | 🟥 | — | 0/3 |
+| SQL | SELECT/JOIN/aggregations | 🟥 | — | 0/3 |
+| Python | syntax + basic typing | 🟥 | — | 0/3 |
+| Fundamentals | Git (branches, rebase) | 🟥 | — | 0/3 |
+| Fundamentals | basic Docker | 🟥 | — | 0/3 |
+| Java | syntax + collections | 🟥 | — | 0/3 |
+| .NET | syntax + basic LINQ | 🟥 | — | 0/3 |
+| Ruby/Rails | syntax + basic ActiveRecord | 🟥 | — | 0/3 |
 
-> Claude Code: actualiza esta tabla después de cada `revisar`. Agrega filas
-> nuevas de skills según se vayan necesitando (sigue el checklist del
-> `README.md` de cada track). El nivel puede llegar hasta 🟦 (Senior) — ver
-> Rúbrica Mid→Senior en `CLAUDE.md`. Si `determinar nivel` confirmó un nivel
-> de entrada sin arrancar desde 0/3, anótalo en la columna correspondiente
-> (p. ej. "confirmado por diagnóstico, 2026-07-03" en vez de "0/3").
+> Claude Code: update this table after every `review`. Add new skill rows as
+> they become needed (follow the checklist in each track's `README.md`).
+> Level can go up to 🟦 (Senior) — see the Mid→Senior Rubric in `CLAUDE.md`.
+> If `assess level` confirmed an entry level without starting from 0/3,
+> note it in the corresponding column (e.g. "confirmed by assessment,
+> 2026-07-03" instead of "0/3").

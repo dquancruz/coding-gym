@@ -1,8 +1,8 @@
 # Capstones
 
-Cuando un ejercicio crezca hasta ser un proyecto real de portafolio, sácalo a
-su propio repo y enlázalo aquí.
+When an exercise grows into a real portfolio project, move it out to its own
+repo and link it here.
 
-| Proyecto | Track(s) | Repo | Estado |
+| Project | Track(s) | Repo | Status |
 |---|---|---|---|
-| _(ninguno todavía)_ | | | |
+| _(none yet)_ | | | |

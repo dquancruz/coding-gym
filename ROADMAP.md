@@ -1,170 +1,169 @@
 # ROADMAP — Coding Gym
 
-Stack y plan de fases, calibrados a la demanda de mercado 2026 y a hacia dónde
-va la tendencia (IA aplicada subiendo fuerte, lo "enterprise clásico" estable
-pero sin crecer, el núcleo JS/TS+Python como base no-negociable).
+Stack and phase plan, calibrated to 2026 market demand and where the trend is
+heading (applied AI rising fast, "classic enterprise" stable but not
+growing, the JS/TS+Python core as a non-negotiable base).
 
-## Lógica del stack (por qué este orden y no otro)
+## Stack rationale (why this order and not another)
 
-1. **TypeScript + React/Next.js + Node** van primero porque son sinérgicos
-   (mismo lenguaje, mismo ecosistema) y concentran el mayor volumen de
-   vacantes full-stack del mercado ahora mismo.
-2. **Python + SQL** entran después como el segundo pilar: Python es el
-   lenguaje #1 en demanda general y la puerta de entrada obligatoria a IA/ML;
-   SQL es la habilidad más durable y transversal a todo backend/datos.
-3. **Machine Learning / IA aplicada** es la fase de mayor retorno futuro: la
-   tendencia no es "ML clásico" sino **LLMs + RAG + MLOps** (despliegue real,
-   no solo notebooks). Es donde está la prima salarial más alta y el
-   crecimiento más rápido proyectado.
-4. **Java, .NET y Ruby on Rails** se mantienen "tibios" (1 ejercicio/semana
-   rotando) desde el día uno, no se abandonan: siguen siendo pedidos en
-   enterprise (Java/.NET) y en startups de prototipado rápido (Rails), pero no
-   están creciendo tan rápido como el núcleo JS/TS+Python+IA, así que no
-   justifican ser primarios todavía.
-5. **Fundamentos (Git, Docker, testing, CI/CD, diseño de sistemas)** corren en
-   paralelo SIEMPRE: son lo que de verdad separa junior de mid en cualquier
-   stack, así que nunca bajan de mantenimiento activo.
-
-## El stack
-
-| # | Track | Núcleo | Frameworks / herramientas clave | Rol en el plan |
-|---|---|---|---|---|
-| 1 | TypeScript | TS/JS | tipos avanzados, Zod | Base del núcleo full-stack |
-| 2 | React + Next.js | TS | React 19, App Router, RSC, Server Actions, Tailwind | Frontend #1 + meta-framework de facto |
-| 3 | Node backend | Node.js (TS) | Express/Fastify, NestJS, REST, auth | Runtime backend #1 |
-| 4 | Python | Python | typing, pytest, FastAPI | Lenguaje #1 en demanda; puente a IA |
-| 5 | SQL & bases de datos | SQL | PostgreSQL, índices, modelado, ORMs | Habilidad transversal más durable |
-| 6 | Machine Learning / IA | Python | NumPy, pandas, scikit-learn, PyTorch, Hugging Face, LangChain, RAG, vector DBs, MLOps | Mayor crecimiento y prima salarial futura |
-| 7 | Fundamentos | — | Git, Docker, testing, CI/CD, diseño de sistemas, algoritmos | Transversal, siempre activo |
-| 8 | Java | Java | Spring Boot, JUnit | Mantenimiento — enterprise/finanzas |
-| 9 | C# / .NET | C# | ASP.NET Core, EF Core, xUnit | Mantenimiento — enterprise Microsoft |
-| 10 | Ruby on Rails | Ruby | Rails, RSpec | Mantenimiento — startups/prototipado |
+1. **TypeScript + React/Next.js + Node** come first because they're
+   synergistic (same language, same ecosystem) and concentrate the largest
+   volume of full-stack openings in the market right now.
+2. **Python + SQL** come next as the second pillar: Python is the #1
+   language in overall demand and the mandatory gateway into AI/ML; SQL is
+   the most durable and transversal skill across all backend/data work.
+3. **Applied Machine Learning / AI** is the phase with the highest future
+   return: the trend isn't "classic ML" but **LLMs + RAG + MLOps** (real
+   deployment, not just notebooks). It's where the highest salary premium
+   and fastest projected growth are.
+4. **Java, .NET, and Ruby on Rails** stay "warm" (1 exercise/week rotating)
+   from day one, never abandoned: they're still in demand in enterprise
+   (Java/.NET) and fast-prototyping startups (Rails), but they aren't
+   growing as fast as the JS/TS+Python+AI core, so they don't justify being
+   primary yet.
+5. **Fundamentals (Git, Docker, testing, CI/CD, systems design)** run in
+   parallel ALWAYS: they're what truly separates junior from mid in any
+   stack, so they never drop below active maintenance.
 
 ## Paths
 
-Este repo ya no asume una única progresión lineal para todo el mundo: cada
-persona que lo use elige uno de estos 3 paths con el comando `elegir path`
-(ver `CLAUDE.md`). Cada path tiene su propia secuencia de fases, de **Junior a
-Senior**. Fundamentos y el mantenimiento rotativo de Java/.NET/Rails corren
-igual en los 3 paths (ver sección "Continuo" al final).
+This repo no longer assumes a single linear progression for everyone: each
+person who uses it picks one of these 3 paths with the `choose path` command
+(see `CLAUDE.md`). Each path defines its own phase sequence, from **Junior to
+Senior**. Fundamentals and the rotating maintenance of Java/.NET/Rails run
+the same across all 3 paths (see the "Ongoing" section at the end).
 
-| # | Path | Enfoque | Para quién es |
+| # | Path | Focus | Who it's for |
 |---|---|---|---|
-| 1 | **Full-stack Web** | TypeScript → React/Next.js → Node backend | Quiere el rol full-stack de mayor demanda ahora mismo; le da igual frontend o backend, quiere ambos |
-| 2 | **Backend & Datos** | Python (+FastAPI) → SQL & bases de datos | Se inclina por backend/datos, quiere una base sólida antes de (opcionalmente) saltar a IA después |
-| 3 | **IA Aplicada** | Python + ML/LLMs/RAG → Fundamentos de despliegue (MLOps) | Ya tiene una base de programación razonable y quiere ir directo a IA aplicada, no ML clásico de notebook |
+| 1 | **Full-stack Web** | TypeScript → React/Next.js → Node backend | Wants the highest-demand full-stack role right now; doesn't mind frontend or backend, wants both |
+| 2 | **Backend & Data** | Python (+FastAPI) → SQL & databases | Leans toward backend/data, wants a solid base before (optionally) jumping to AI later |
+| 3 | **Applied AI** | Python + ML/LLMs/RAG → Deployment fundamentals (MLOps) | Already has a reasonable programming base and wants to go straight into applied AI, not classic notebook ML |
 
-Un mismo track (p. ej. Python) puede aparecer en más de un path — lo que
-cambia es el **rol** que juega (primario vs. paso previo) y qué viene después.
-Se puede cambiar de path en cualquier momento con `elegir path`; el progreso
-ya hecho en otros tracks no se pierde, solo deja de ser prioridad.
+The same track (e.g. Python) can appear in more than one path — what changes
+is the **role** it plays (primary vs. stepping stone) and what comes after.
+You can switch paths at any time with `choose path`; progress already made
+in other tracks isn't lost, it just stops being a priority.
 
-## Fases por path
+## The stack
 
-Cada path tiene una fase **Junior→Mid** (llegar a producción sin guía) y una
-fase **Mid→Senior** (diseño, ambigüedad, liderazgo técnico — ver Rúbrica
-Mid→Senior en `CLAUDE.md`). La fase activa de cada path se registra en
+| # | Track | Core | Key frameworks / tools | Role in the plan |
+|---|---|---|---|---|
+| 1 | TypeScript | TS/JS | advanced types, Zod | Base of the full-stack core |
+| 2 | React + Next.js | TS | React 19, App Router, RSC, Server Actions, Tailwind | Frontend #1 + de facto meta-framework |
+| 3 | Node backend | Node.js (TS) | Express/Fastify, NestJS, REST, auth | Backend runtime #1 |
+| 4 | Python | Python | typing, pytest, FastAPI | #1 language in demand; bridge to AI |
+| 5 | SQL & databases | SQL | PostgreSQL, indexes, modeling, ORMs | Most durable transversal skill |
+| 6 | Machine Learning / AI | Python | NumPy, pandas, scikit-learn, PyTorch, Hugging Face, LangChain, RAG, vector DBs, MLOps | Highest future growth and salary premium |
+| 7 | Fundamentals | — | Git, Docker, testing, CI/CD, systems design, algorithms | Transversal, always active |
+| 8 | Java | Java | Spring Boot, JUnit | Maintenance — enterprise/finance |
+| 9 | C# / .NET | C# | ASP.NET Core, EF Core, xUnit | Maintenance — Microsoft-stack enterprise |
+| 10 | Ruby on Rails | Ruby | Rails, RSpec | Maintenance — startups/prototyping |
+
+## Phases per path
+
+Each path has a **Junior→Mid** phase (reach production without guidance) and
+a **Mid→Senior** phase (design, ambiguity, technical leadership — see the
+Mid→Senior Rubric in `CLAUDE.md`). Each path's active phase is tracked in
 `progress/tracker.md`.
 
 ### Path 1 — Full-stack Web
 
-#### 🟦 Junior→Mid (empieza aquí si el path recién se eligió)
-**Duración orientativa:** 8–10 semanas.
+#### 🟦 Junior→Mid (start here if the path was just chosen)
+**Rough duration:** 8–10 weeks.
 
-- 🔵 Primario: **TypeScript** → en cuanto tengas 🟨 sólido en tipos/async, el
-  primario rota a **React + Next.js** (la base de TS no se abandona, sigue de
-  secundario).
-- 🟢 Secundario: **Node backend**
-- ⚪ Mantenimiento (rotando, 1/semana cada uno): SQL, Python, Fundamentos
-  (Git/Docker desde ya), Java, .NET, Rails
+- 🔵 Primary: **TypeScript** → once you have a solid 🟨 in types/async, the
+  primary rotates to **React + Next.js** (the TS base isn't dropped, it stays
+  secondary).
+- 🟢 Secondary: **Node backend**
+- ⚪ Maintenance (rotating, 1/week each): SQL, Python, Fundamentals
+  (Git/Docker from the start), Java, .NET, Rails
 
-**Criterio de salida:** TypeScript en 🟨 estable + React/Next en 🟨 + Node en
-🟥→🟨, y puedo armar un mini full-stack (frontend Next + API Node) end-to-end
-sin guía.
+**Exit criterion:** TypeScript at a stable 🟨 + React/Next at 🟨 + Node at
+🟥→🟨, and I can put together a mini full-stack (Next frontend + Node API)
+end-to-end without guidance.
 
 #### 🟦 Mid→Senior
-**Duración orientativa:** 8–12 semanas, no tiene fin fijo — es mejora continua.
+**Rough duration:** 8–12 weeks, no fixed end — it's continuous improvement.
 
-- 🔵 Primario: diseño de arquitectura frontend/backend (RSC vs. client
-  components, estrategias de cache, límites de servicio, contratos de API)
-- 🟢 Secundario: performance a escala (Core Web Vitals, N+1, rate limiting,
-  observabilidad) y mentoring (revisar código/diseño de un compañero real o
-  de `solutions/` de otros tracks)
-- ⚪ Mantenimiento: igual que antes, rotando
+- 🔵 Primary: frontend/backend architecture design (RSC vs. client
+  components, caching strategies, service boundaries, API contracts)
+- 🟢 Secondary: performance at scale (Core Web Vitals, N+1, rate limiting,
+  observability) and mentoring (reviewing a real teammate's code/design or
+  other tracks' `solutions/`)
+- ⚪ Maintenance: same as before, rotating
 
-**Criterio de salida (no hay "salida" real, pero para pasar a mantenimiento
-sostenido):** puedo tomar un requerimiento ambiguo de negocio, proponerlo
-como RFC corto con alternativas descartadas, implementarlo full-stack, y
-dejarlo documentado para que otra persona lo opere sin preguntarme.
+**Exit criterion (there's no real "exit," but to move to sustained
+maintenance):** I can take an ambiguous business requirement, propose it as
+a short RFC with discarded alternatives, implement it full-stack, and leave
+it documented so someone else can operate it without asking me.
 
-### Path 2 — Backend & Datos
+### Path 2 — Backend & Data
 
-#### 🟩 Junior→Mid (empieza aquí si el path recién se eligió)
-**Duración orientativa:** 8–10 semanas.
+#### 🟩 Junior→Mid (start here if the path was just chosen)
+**Rough duration:** 8–10 weeks.
 
-- 🔵 Primario: **Python** (+ FastAPI)
-- 🟢 Secundario: **SQL & bases de datos**
-- ⚪ Mantenimiento (rotando): TS/React/Node, Fundamentos (Docker/CI sube de
-  intensidad), Java, .NET, Rails
+- 🔵 Primary: **Python** (+ FastAPI)
+- 🟢 Secondary: **SQL & databases**
+- ⚪ Maintenance (rotating): TS/React/Node, Fundamentals (Docker/CI ramps up
+  in intensity), Java, .NET, Rails
 
-**Criterio de salida:** Python en 🟨/🟩 + SQL en 🟨, puedo construir una API
-con persistencia real, tests y Docker, sin guía.
+**Exit criterion:** Python at 🟨/🟩 + SQL at 🟨, I can build an API with real
+persistence, tests, and Docker, without guidance.
 
 #### 🟩 Mid→Senior
-**Duración orientativa:** 8–12 semanas, mejora continua.
+**Rough duration:** 8–12 weeks, continuous improvement.
 
-- 🔵 Primario: diseño de datos y servicios (modelado para escala, migraciones
-  sin downtime, particionamiento/índices, consistencia vs. disponibilidad)
-- 🟢 Secundario: operabilidad (observabilidad, SLOs, manejo de incidentes) y
-  mentoring (revisar esquemas/PRs ajenos)
-- ⚪ Mantenimiento: igual que antes, rotando
+- 🔵 Primary: data and service design (modeling for scale, zero-downtime
+  migrations, partitioning/indexing, consistency vs. availability)
+- 🟢 Secondary: operability (observability, SLOs, incident handling) and
+  mentoring (reviewing others' schemas/PRs)
+- ⚪ Maintenance: same as before, rotating
 
-**Criterio de salida:** puedo diseñar el modelo de datos y la arquitectura de
-un servicio nuevo desde un requerimiento ambiguo, documentar los tradeoffs, y
-anticipar cómo falla bajo carga o con datos corruptos.
+**Exit criterion:** I can design the data model and architecture of a new
+service from an ambiguous requirement, document the tradeoffs, and anticipate
+how it fails under load or with corrupted data.
 
-### Path 3 — IA Aplicada
+### Path 3 — Applied AI
 
-#### 🟪 Junior→Mid (empieza aquí si el path recién se eligió)
-**Duración orientativa:** 8–12 semanas.
+#### 🟪 Junior→Mid (start here if the path was just chosen)
+**Rough duration:** 8–12 weeks.
 
-- 🔵 Primario: **Machine Learning / IA** (foco en LLMs + RAG + MLOps, no solo
-  ML clásico)
-- 🟢 Secundario: **Fundamentos** (CI/CD, Docker, despliegue — necesario para
-  servir modelos en producción)
-- ⚪ Mantenimiento (rotando): todo lo demás, 1/semana
+- 🔵 Primary: **Machine Learning / AI** (focus on LLMs + RAG + MLOps, not
+  just classic ML)
+- 🟢 Secondary: **Fundamentals** (CI/CD, Docker, deployment — needed to
+  serve models in production)
+- ⚪ Maintenance (rotating): everything else, 1/week
 
-**Criterio de salida:** puedo llevar un modelo/LLM de notebook a un endpoint
-servido con FastAPI + Docker, con evaluación básica de calidad de salida.
+**Exit criterion:** I can take a model/LLM from a notebook to an endpoint
+served with FastAPI + Docker, with a basic evaluation of output quality.
 
 #### 🟪 Mid→Senior
-**Duración orientativa:** 8–12 semanas, mejora continua.
+**Rough duration:** 8–12 weeks, continuous improvement.
 
-- 🔵 Primario: diseño de sistemas de IA (elección de arquitectura RAG vs.
-  fine-tuning vs. prompting, evaluación rigurosa de calidad, costo/latencia)
-- 🟢 Secundario: MLOps a escala (versionado de modelos/datos, monitoreo de
-  drift, rollback seguro) y mentoring (revisar pipelines/prompts ajenos)
-- ⚪ Mantenimiento: igual que antes, rotando
+- 🔵 Primary: AI systems design (choosing RAG vs. fine-tuning vs. prompting
+  architecture, rigorous quality evaluation, cost/latency)
+- 🟢 Secondary: MLOps at scale (model/data versioning, drift monitoring,
+  safe rollback) and mentoring (reviewing others' pipelines/prompts)
+- ⚪ Maintenance: same as before, rotating
 
-**Criterio de salida:** puedo diseñar y justificar por escrito la arquitectura
-de un sistema de IA de punta a punta (datos → modelo/prompt → evaluación →
-producción), incluyendo qué alternativas descarté y por qué.
+**Exit criterion:** I can design and justify in writing the architecture of
+an end-to-end AI system (data → model/prompt → evaluation → production),
+including which alternatives I discarded and why.
 
-## Continuo (todos los paths, todas las fases)
-Java, .NET y Ruby on Rails se mantienen vivos con 1 ejercicio/semana cada uno
-en rotación, para no perder el músculo, sin importar el path elegido. Si tu
-objetivo de trabajo es **enterprise** (banca, seguros, gobierno), sube **Java
-o .NET** a secundario. Si es **producto/startup**, sube **Rails** antes.
+## Ongoing (all paths, all phases)
+Java, .NET, and Ruby on Rails stay alive with 1 exercise/week each in
+rotation, to not lose the muscle, regardless of the chosen path. If your work
+goal is **enterprise** (banking, insurance, government), bump **Java or
+.NET** to secondary. If it's **product/startup**, bump **Rails** instead.
 
-## Cómo usar este archivo con Claude Code
-- Antes de generar un ejercicio sin track explícito, Claude debe leer el path
-  elegido y su fase ACTIVA en `progress/tracker.md`, y respetar la
-  distribución 🔵/🟢/⚪ de esa fase.
-- Cuando uses `elegir path`, Claude escribe el path elegido en
-  `progress/tracker.md` y aplica la distribución de su fase Junior→Mid (salvo
-  que `determinar nivel` ya haya confirmado nivel Mid o superior, en cuyo
-  caso arranca directo en Mid→Senior).
-- Cuando uses `siguiente fase`, Claude revisa el criterio de salida de la fase
-  activa DENTRO del path elegido contra `progress/tracker.md` y, si se
-  cumple, marca la siguiente fase de ese path como ACTIVA (edita este
-  archivo).
+## How to use this file with Claude Code
+- Before generating an exercise without an explicit track, Claude must read
+  the chosen path and its ACTIVE phase in `progress/tracker.md`, and respect
+  that phase's 🔵/🟢/⚪ distribution.
+- When you use `choose path`, Claude writes the chosen path in
+  `progress/tracker.md` and applies its Junior→Mid phase distribution
+  (unless `assess level` already confirmed a Mid level or higher, in which
+  case it starts directly at Mid→Senior).
+- When you use `next phase`, Claude checks the exit criterion of the active
+  phase WITHIN the chosen path against `progress/tracker.md` and, if it's
+  met, marks that path's next phase as ACTIVE (edits this file).
