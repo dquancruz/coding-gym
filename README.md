@@ -1,54 +1,56 @@
 # 🏋️ Coding Gym
 
-Repositorio de práctica activa para ir de **junior a senior** en un stack
-full-stack + IA, usando Claude Code como entrenador.
+Active practice repo to go from **junior to senior** on a full-stack + AI
+stack, using Claude Code as your coach.
 
-## Usar esto con tu equipo
-Este repo es una **plantilla**: si un compañero quiere usarlo, que clone o
-forkee su propia copia. Cada quien lleva su propio `progress/` — no hay
-estado compartido entre personas ni niveles que se pisen entre sí.
+## Using this with your team
+This repo is a **template**: if a coworker wants to use it, have them clone
+or fork their own copy. Everyone keeps their own `progress/` — there's no
+shared state or levels stepping on each other between people.
 
-## Cómo funciona
-1. `CLAUDE.md` define las reglas del juego (lee esto primero si eres Claude Code).
-2. `ROADMAP.md` define el stack completo, los 3 paths disponibles y sus fases.
-3. Cada carpeta `NN-track/` tiene su propio checklist junior→mid en su `README.md`.
-4. `progress/tracker.md` y `progress/log.md` llevan el registro de avance.
+## How it works
+1. `CLAUDE.md` defines the rules of the game (read this first if you're Claude Code).
+2. `ROADMAP.md` defines the full stack, the 3 available paths, and their phases.
+3. Each `NN-track/` folder has its own junior→mid checklist in its `README.md`.
+4. `progress/tracker.md` and `progress/log.md` keep the progress record.
 
-## Primer uso
-Si es tu primera vez en tu copia del repo, corre en orden:
-
-```
-elegir path
-```
-Te muestro los 3 paths disponibles (Full-stack Web, Backend & Datos, IA
-Aplicada) y eliges uno.
+## First use
+If this is your first time in your copy of the repo, run in order:
 
 ```
-determinar nivel
+choose path
 ```
-Si ya tienes experiencia previa, esto evalúa tu nivel real por skill en vez
-de asumir que partes de 🟥 (junior) en todo.
-
-## Uso diario
-Luego, en cada sesión:
+I'll show you the 3 available paths (Full-stack Web, Backend & Data, Applied
+AI) and you pick one.
 
 ```
-ejercicio
+assess level
+```
+If you already have prior experience, this evaluates your real level per
+skill instead of assuming you start at 🟥 (junior) across the board.
+
+## Daily use
+Then, in each session:
+
+```
+exercise
 ```
 
-Claude elegirá el track y skill según tu path, la fase activa y tu tracker, y
-generará un ejercicio en `NN-track/exercises/`. Resuélvelo, luego:
+Claude will pick the track and skill based on your path, the active phase,
+and your tracker, and will generate an exercise in `NN-track/exercises/`.
+Solve it, then:
 
 ```
-revisar
+review
 ```
 
-Otros comandos: `progreso`, `subir nivel [skill]`, `siguiente fase`.
+Other commands: `progress`, `level up [skill]`, `next phase`.
 
-## Niveles
-🟥 Junior → 🟨 Junior+ → 🟩 Mid → 🟦 Senior. El salto mid→senior se evalúa con
-una rúbrica distinta (diseño, ambigüedad, mentoring) — ver `CLAUDE.md`.
+## Levels
+🟥 Junior → 🟨 Junior+ → 🟩 Mid → 🟦 Senior. The mid→senior jump is graded
+with a different rubric (design, ambiguity, mentoring) — see `CLAUDE.md`.
 
-## Paths y fase actual
-Ver detalle completo (los 3 paths y sus fases Junior→Mid / Mid→Senior) en
-`ROADMAP.md`. Tu path y fase activa quedan registrados en `progress/tracker.md`.
+## Paths and current phase
+See the full detail (the 3 paths and their Junior→Mid / Mid→Senior phases)
+in `ROADMAP.md`. Your path and active phase are tracked in
+`progress/tracker.md`.
