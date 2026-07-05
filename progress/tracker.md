@@ -3,8 +3,8 @@
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
 **Current streak:** 2 days
-**Current exercise:** TS 0003 cola-soporte — assigned 2026-07-02, pending `review`.
-**Last reviewed:** TS 0002 reservas-gimnasio — 🟨 (2026-07-02, PR #2 merged to `main`).
+**Current exercise:** none — ready for next `exercise`.
+**Last reviewed:** TS 0003 cola-soporte — 🟩 (2026-07-04, first clean attempt, not yet committed/PR'd).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -15,7 +15,7 @@
 
 | Track | Skill | Level | Last practice | Exercises at target level |
 |---|---|---|---|---|
-| TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-02 (0002 reservas-gimnasio, 🟨 — see `log.md`) | 0/3 (2 attempts: 0001 🟥, 0002 🟨 — Explanation=2 still blocking) |
+| TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-04 (0003 cola-soporte, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩 — need 2 more consecutive 🟩 to qualify for `level up`; streak resets if the next one drops below 🟩) |
 | TypeScript | generics and utility types | 🟥 | — | 0/3 |
 | TypeScript | discriminated unions / type guards | 🟥 | — | 0/3 |
 | TypeScript | runtime validation (Zod) | 🟥 | — | 0/3 |
