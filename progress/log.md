@@ -82,3 +82,22 @@ Add a third case to `manual.ts`: two clients with separate bookings on the same 
 **Learned:** `item === existe` fixed the bug at its root — I verified this by running the scenario that broke the previous fix (Carlos=2, Ana=3, Carlos books 4 more): it gives Carlos=6, Ana=3, two rows, no corruption. Compiles clean under `strict --noImplicitAny`, zero `any`. `totalAttendees`/`cancelSession` are still correct and immutable. Good reaction to feedback: understood why comparing by identity fixes both the "wrong client" bug and the "replaces instead of adds up" bug with a single change.
 **To improve:** Didn't add the suggested third test case (two separate clients + one rebooks) — exactly the one that would have caught the previous fix's bug; the suite is left unguarded against a regression there. `cliente: cliente` in the spread on line 28 is now redundant (dead weight, not a bug) after the switch to `item === existe`. The comments (`// 1. We apply Readonly...`, `// We fix the .reduce...`) document the fixing process instead of the design reasoning — for mid I need to see the *why* behind decisions (e.g. why compare by identity, why throw an error on `personas <= 0` instead of silently ignoring it), not a patch history.
 **Suggested next refactor:** Remove the redundant `cliente: cliente` on line 28. Add the third test (separate clients + rebooking) to `manual.ts`. Next time you fix something, replace the changelog-style comment with a line explaining the design decision, not the change that was made.
+
+## 2026-07-04 — [TypeScript] 0003 cola-soporte — verdict (🟩)
+**Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 3 · Design 3 · Performance 4 · Explanation 3
+**Learned:** First clean first-attempt solution in this track — compiles under `strict --noImplicitAny` with zero `any` (verified via `tsc`), all 7 manual tests pass (verified by running compiled output). `Asignacion = Ticket & {...}` correctly composes via intersection instead of repeating fields. No mutation anywhere, `Readonly<T>` used consistently. `calcularCargaDeTrabajo` uses a `Map` for O(n) grouping. The comment block justifying `throw` (blocking, business-invalid) vs. `console.warn` (valid-but-noteworthy reassignment) is genuine design reasoning — this closes the exact gap (`Explanation=2`) that blocked 🟩 on 0002.
+**To improve:** Two related issues, one causing the other. (1) `resolver` validates "has this ticket ID ever appeared in the assignment log" (`asignaciones.some(...)`) instead of "is `ticket.estado` currently `'asignado'`" — since the log is append-only, this passes forever once a ticket has been assigned even once, regardless of current state. Not triggered by the current API surface (no `reabrir` implemented), but it's exactly the state-drift bug the exercise's premise describes. (2) Root cause: `asignar` returns only the updated `Asignacion[]`, never the updated `Ticket` — proven by the test file itself (line 24), which hand-rolls `{ ...ticketAbierto, estado: 'asignado' }` because the module never hands that back. The module owns half the state machine and pushes the other half onto every caller.
+**Suggested next refactor:**
+```ts
+// Before (soporte.ts:93-96) — checks history, not current state
+const tieneAsignacion = asignaciones.some(item => item.id === ticket.id);
+if (!tieneAsignacion) {
+    throw new Error(`El ticket #${ticket.id} nunca fue asignado, no puede resolverse`);
+}
+
+// After — trust the authoritative field
+if (ticket.estado !== 'asignado') {
+    throw new Error(`El ticket #${ticket.id} no puede resolverse: no está asignado`);
+}
+```
+Make `asignar` return the updated `Ticket` alongside the updated log (not just the log) so callers never need to hand-roll a state transition. Add a test with a manually-constructed `estado: 'abierto'` ticket that still has a stale `Asignacion` entry — `resolver` should reject it and currently wouldn't.
