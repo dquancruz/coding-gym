@@ -124,6 +124,9 @@ export function aprobar(
   revisadaPor: string,
   fechaRevision: Date = new Date()
 ): Resultado<SolicitudAprobada> {
+  if (solicitud.empleadoId !== empleado.id) {
+    return fallo(`La solicitud #${solicitud.id} pertenece al empleado ${solicitud.empleadoId}, no a ${empleado.id}`);
+  }
   if (solicitud.estado !== 'pendiente') {
     return fallo(
       `No se puede aprobar: la solicitud ya está en estado "${solicitud.estado}"`

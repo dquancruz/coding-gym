@@ -118,3 +118,15 @@ if (solicitud.empleadoId !== empleado.id) {
 if (solicitud.estado !== 'pendiente') { ... }
 ```
 Add the test that would've caught it: `aprobar` with a mismatched `solicitud`/`empleado` pair must fail explicitly. Secondary, unscored gap: no constructor/factory validates a `Solicitud` at creation (`cantidadDias` could be negative or inconsistent with the date range) — not required by this exercise, but the natural next boundary to close.
+
+## 2026-07-06 — [TypeScript] 0004 solicitudes-vacaciones (fix) — verdict (🟨, import broken as first committed)
+**Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 2 · Errors 4 · Design 4 · Performance 4 · Explanation 3
+**Learned:** Applied the `empleadoId`/`empleado.id` cross-check unprompted, without me handing over the fix code, and placed it *before* the `estado` check — internalizing last review's general rule (validate the relationship between two referenced objects before any business logic) for the first time without a second hint. Verified by running the compiled test standalone: approving Ana's request against a stranger now fails with a message naming whose request it actually is, and the request stays `pendiente`.
+**To improve:** `tests/solicitudes-vacaciones.test.ts:9` imports from `'../src/vacaciones'`, but the file is `src/solicitudes-vacaciones.ts` — the test suite doesn't compile as committed (`TS2307: Cannot find module`). None of the 8 tests, including the new one covering the fix, ever executed. I only confirmed the fix works by correcting the import in a scratch copy and running it manually. Shipping a test that asserts the right thing but can't resolve its own import is a process gap, not a types gap — the exercise isn't done until you've actually run `tsc` + `node` on it, not just read the diff.
+**Suggested next refactor:** Fix the import path, then make "compile and run before calling it done" non-negotiable — especially on a diff whose entire purpose is proving a previously-flagged bug is fixed.
+
+## 2026-07-06 — [TypeScript] 0004 solicitudes-vacaciones (fix, corrected) — verdict (🟩)
+**Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 4 · Explanation 3
+**Learned:** Import path corrected to `../src/solicitudes-vacaciones`. Re-verified independently: `tsc --strict --noImplicitAny` compiles clean and all 8 assertions (including the new empleado/solicitud cross-check case) run and pass via `node`. The underlying fix from the previous entry holds — this closes out the empleado/solicitud cross-validation gap from 0004's original review. First 🟩 since 0003; streak toward `level up` resets counting from here (1/3).
+**To improve:** Nothing blocking. Minor: `Explanation` stays at 3 — no note in the diff about *why* the import broke in the first place (copy-paste from a renamed file?), which would've been useful context for next time.
+**Suggested next refactor:** None needed for this exercise. Carry the "compile + run before done" habit forward — don't let it be specific to this one incident.
