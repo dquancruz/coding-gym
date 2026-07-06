@@ -43,7 +43,33 @@ try {
     console.error("La prueba de caso feliz falló inesperadamente:", error);
 }
 
-// Caso de prueba 2: no se puede aprobar excediendo el saldo disponible
+// Caso de prueba 2: no se puede aprobar una solicitud de OTRO empleado
+try {
+    const otroEmpleado: Empleado = { id: 99, nombre: 'Luis', saldoAnual: 20 };
+    const solicitudDeAna = crearSolicitud(); // empleadoId = 1 (Ana)
+
+    // Sin el guard, diasDisponibles calcularía el saldo de Luis (que está
+    // intacto) y la solicitud de Ana se aprobaría contra el saldo equivocado.
+    const resultado = aprobar(solicitudDeAna, otroEmpleado, [solicitudDeAna], 'jefa');
+
+    console.assert(!resultado.ok, "Error: aprobar con un empleado que no es el dueño debería fallar");
+    if (!resultado.ok) {
+        console.assert(
+            resultado.error.includes('pertenece'),
+            "Error: el mensaje debería indicar a quién pertenece la solicitud"
+        );
+    }
+    console.assert(
+        solicitudDeAna.estado === 'pendiente',
+        "Error: la solicitud debe seguir pendiente tras el intento inválido"
+    );
+
+    console.log("Prueba de solicitud/empleado inconsistentes aprobada.");
+} catch (error) {
+    console.error("La prueba de empleado inconsistente falló inesperadamente:", error);
+}
+
+// Caso de prueba 3: no se puede aprobar excediendo el saldo disponible
 try {
     // Ya hay 12 días aprobados este año: quedan 3 y se piden 5
     const previa = crearSolicitud({ id: 1, cantidadDias: 12 });
@@ -69,7 +95,7 @@ try {
     console.error("La prueba de saldo insuficiente falló inesperadamente:", error);
 }
 
-// Caso de prueba 3: no se puede procesar (aprobar o rechazar) una solicitud ya procesada
+// Caso de prueba 4: no se puede procesar (aprobar o rechazar) una solicitud ya procesada
 try {
     const solicitud = crearSolicitud();
     const aprobada = aprobar(solicitud, empleado, [solicitud], 'jefa');
@@ -88,7 +114,7 @@ try {
     console.error("La prueba de solicitud ya procesada falló inesperadamente:", error);
 }
 
-// Caso de prueba 4: no se puede rechazar sin motivo
+// Caso de prueba 5: no se puede rechazar sin motivo
 try {
     const solicitud = crearSolicitud();
 
@@ -113,7 +139,7 @@ try {
     console.error("La prueba de rechazar sin motivo falló inesperadamente:", error);
 }
 
-// Caso de prueba 5: cancelar una solicitud aprobada devuelve los días al saldo
+// Caso de prueba 6: cancelar una solicitud aprobada devuelve los días al saldo
 try {
     const solicitud = crearSolicitud();
     const anio = solicitud.fechaInicio.getFullYear();
@@ -146,7 +172,7 @@ try {
     console.error("La prueba de cancelar aprobada falló inesperadamente:", error);
 }
 
-// Caso de prueba 6: no se puede cancelar una rechazada ni una ya cancelada
+// Caso de prueba 7: no se puede cancelar una rechazada ni una ya cancelada
 try {
     const solicitud = crearSolicitud();
     const rechazada = rechazar(solicitud, 'jefa', 'No hay cobertura del equipo');
@@ -171,7 +197,7 @@ try {
     console.error("La prueba de cancelar inválida falló inesperadamente:", error);
 }
 
-// Caso de prueba 7: días disponibles cuenta solo las aprobadas actuales del año
+// Caso de prueba 8: días disponibles cuenta solo las aprobadas actuales del año
 try {
     const p1 = crearSolicitud({ id: 1, cantidadDias: 4 });
     const a1 = aprobar(p1, empleado, [p1], 'jefa');
