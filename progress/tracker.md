@@ -2,9 +2,9 @@
 
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
-**Current streak:** 2 days
+**Current streak:** 3 days
 **Current exercise:** none — ready for next `exercise`.
-**Last reviewed:** TS 0003 cola-soporte — 🟩 (2026-07-04, first clean attempt, not yet committed/PR'd).
+**Last reviewed:** TS 0004 solicitudes-vacaciones — 🟨 (2026-07-05, missing empleado/solicitud cross-check, see `log.md`).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -15,7 +15,7 @@
 
 | Track | Skill | Level | Last practice | Exercises at target level |
 |---|---|---|---|---|
-| TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-04 (0003 cola-soporte, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩 — need 2 more consecutive 🟩 to qualify for `level up`; streak resets if the next one drops below 🟩) |
+| TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-05 (0004 solicitudes-vacaciones, 🟨 — see `log.md`) | 0/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩, 0004 🟨 — streak reset after 0004 dropped below 🟩; need 3 new consecutive 🟩 to qualify for `level up`) |
 | TypeScript | generics and utility types | 🟥 | — | 0/3 |
 | TypeScript | discriminated unions / type guards | 🟥 | — | 0/3 |
 | TypeScript | runtime validation (Zod) | 🟥 | — | 0/3 |
