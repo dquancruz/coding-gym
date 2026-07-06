@@ -101,3 +101,20 @@ if (ticket.estado !== 'asignado') {
 }
 ```
 Make `asignar` return the updated `Ticket` alongside the updated log (not just the log) so callers never need to hand-roll a state transition. Add a test with a manually-constructed `estado: 'abierto'` ticket that still has a stale `Asignacion` entry — `resolver` should reject it and currently wouldn't.
+
+## 2026-07-05 — [TypeScript] 0004 solicitudes-vacaciones — verdict (🟨)
+**Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 3 · Errors 3 · Design 3 · Performance 4 · Explanation 3
+**Learned:** Went for the discriminated-union stretch goal unprompted (`SolicitudPendiente | SolicitudAprobada | SolicitudRechazada | SolicitudCancelada`) — a `'rechazada'` without `motivo` is now structurally unrepresentable. `diasDisponibles` correctly derives from current `'aprobada'` state only, directly applying 0003's feedback. `cancelar` deliberately rebuilds the object field-by-field instead of spreading, specifically to avoid leaking `revisadaPor`/`revisadaEn` onto a cancelled request — a real design catch. Compiles clean under `strict --noImplicitAny`, zero `any` (verified via `tsc`), all 7 given tests pass (verified by running compiled output). `Resultado<T>` vs. exception justification is genuine reasoning, not decoration.
+**To improve:** `aprobar(solicitud, empleado, solicitudes, ...)` never checks that `solicitud.empleadoId === empleado.id` — the two are passed as independent parameters with no cross-validation. Confirmed by running: `aprobar(solicitudDeAna(10 días, saldo real 5), empleadoEquivocado(saldoAnual: 100), [solicitudDeAna])` returns `{ ok: true }` — Ana's request gets approved against a stranger's balance because `diasDisponibles` filters by `empleado.id` (the wrong one) instead of `solicitud.empleadoId`. This is the third occurrence of the same bug species in this track (0001: `addToCart` checked only `id` not `id+cliente`; 0002: `.map()` matched only `session.id`, corrupting another client's booking) — two related identities passed around, only one (or now, none) validated. General rule to internalize: when a function takes two objects meant to reference each other, validate that relationship first, before any business logic.
+**Suggested next refactor:**
+```ts
+// Before (aprobar, first line of body)
+if (solicitud.estado !== 'pendiente') { ... }
+
+// After — validate the relationship before anything else
+if (solicitud.empleadoId !== empleado.id) {
+    return fallo(`La solicitud #${solicitud.id} pertenece al empleado ${solicitud.empleadoId}, no a ${empleado.id}`);
+}
+if (solicitud.estado !== 'pendiente') { ... }
+```
+Add the test that would've caught it: `aprobar` with a mismatched `solicitud`/`empleado` pair must fail explicitly. Secondary, unscored gap: no constructor/factory validates a `Solicitud` at creation (`cantidadDias` could be negative or inconsistent with the date range) — not required by this exercise, but the natural next boundary to close.
