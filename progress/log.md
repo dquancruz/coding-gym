@@ -130,3 +130,26 @@ Add the test that would've caught it: `aprobar` with a mismatched `solicitud`/`e
 **Learned:** Import path corrected to `../src/solicitudes-vacaciones`. Re-verified independently: `tsc --strict --noImplicitAny` compiles clean and all 8 assertions (including the new empleado/solicitud cross-check case) run and pass via `node`. The underlying fix from the previous entry holds — this closes out the empleado/solicitud cross-validation gap from 0004's original review. First 🟩 since 0003; streak toward `level up` resets counting from here (1/3).
 **To improve:** Nothing blocking. Minor: `Explanation` stays at 3 — no note in the diff about *why* the import broke in the first place (copy-paste from a renamed file?), which would've been useful context for next time.
 **Suggested next refactor:** None needed for this exercise. Carry the "compile + run before done" habit forward — don't let it be specific to this one incident.
+
+## 2026-07-06 — [TypeScript] 0005 perfiles-repositorio — verdict (🟨)
+**Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 1 · Errors 4 · Design 4 · Performance 4 · Explanation 4
+**Learned:** First real use of the generics/utility-types skill and it's genuinely strong: `Repositorio<T extends { id: number }>` is correctly constrained and generic, `PerfilPublico`/`PerfilResumen` are properly *derived* via `Omit`/`Pick` instead of retyped by hand, `Record<number, Perfil>` used correctly for the index, `Partial<T>` used correctly in `actualizar` (and `id` is deliberately re-pinned after the spread so a careless `cambios` can't hijack the item's key — a real catch). The comments justify every non-obvious decision (Result-via-`undefined`/`boolean` vs. exceptions, duplicate-id "last wins", closures vs. class) — the best "Explanation" score of the track so far. I verified all of `guardar`/`obtener`/`actualizar`/`eliminar`/`indexarPorId`/`aVistaPublica`/`aResumenes` behave correctly by writing and running a standalone test script myself, since none existed.
+**To improve:** `tests/perfiles.test.ts` is empty — zero tests, despite the README explicitly requiring coverage of CRUD happy path, partial update, missing-id behavior, `aVistaPublica` excluding `passwordHash`, and duplicate-id indexing. This is the second consecutive exercise where "did you actually run it" broke down (0004-fix: tests existed but didn't compile; 0005: no tests at all) — the lesson from last review didn't transfer, it just changed shape. Separately, a real bug I found by testing: `guardar`/`obtener`/`actualizar` claim a "defensive copy" via `{ ...item }`, but that's a shallow copy — `createdAt` is a `Date` (mutable object), so its reference is shared between the stored copy and whatever the caller holds. Mutating the `Date` returned from `obtener()` (e.g. `.setFullYear(...)`) silently corrupts the repository's internal state, contradicting the encapsulation the code comments claim. Same gap in `aVistaPublica`: its `createdAt` is the *same* `Date` object as the source `Perfil`.
+**Suggested next refactor:**
+```ts
+// Before (obtener) — shallow copy, Date reference leaks
+obtener(id: number): T | undefined {
+  const item = datos.get(id);
+  return item === undefined ? undefined : { ...item };
+}
+
+// After — clone mutable nested fields too (or use structuredClone(item)
+// for a general-purpose deep copy if T can contain arbitrary nested data)
+```
+Also, before calling any exercise done from now on: write the tests the README asks for, compile, and run them — not optional, not "the logic looks right so it's probably fine." That habit is the actual gap here, not generics knowledge.
+
+## 2026-07-06 — [TypeScript] 0005 perfiles-repositorio (fix) — verdict (🟩)
+**Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 4 · Explanation 4
+**Learned:** Fixed the shallow-copy bug properly with `structuredClone` on every boundary (`guardar`/`obtener`/`actualizar`/`aVistaPublica`), with a comment naming the real limitation (throws on functions/class instances). Wrote 12 tests covering the full acceptance criteria: CRUD happy path, id-not-found across all three mutating operations, partial update preserving untouched fields, non-mutation checked independently for the caller's original object/the `cambios` object/a prior snapshot, `aVistaPublica` excluding `passwordHash` at runtime, `indexarPorId` duplicate-id semantics, and — the standout — a dedicated regression test (case 9) that reproduces the exact `Date`-mutation bug from last review, plus a second-entity-type test (case 11, `Producto`) proving `Repositorio<T>` is actually generic rather than assumed generic. Verified independently: compiles clean under `strict --noImplicitAny`, all 12 assertions run and pass via `node`.
+**To improve:** Nothing blocking. Unscored note for later: `indexarPorId` stores direct references to the input `Perfil` objects rather than cloning them, so mutating a value read from the index would mutate the source array's element — not required by this exercise, but the same bug category just fixed elsewhere.
+**Suggested next refactor:** None needed. First 🟩 on generics/utility types (1/3 toward `level up` for that skill).

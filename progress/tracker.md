@@ -4,7 +4,7 @@
 **Active phase:** 🟦 Junior→Mid (Path 1)
 **Current streak:** 3 days
 **Current exercise:** none — ready for next `exercise`.
-**Last reviewed:** TS 0004 solicitudes-vacaciones (fix, corrected) — 🟩 (2026-07-06, empleado/solicitud cross-check fixed and verified running — see `log.md`).
+**Last reviewed:** TS 0005 perfiles-repositorio (fix) — 🟩 (2026-07-06, structuredClone fix + 12 tests incl. regression test for the prior Date bug — see `log.md`).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -16,7 +16,7 @@
 | Track | Skill | Level | Last practice | Exercises at target level |
 |---|---|---|---|---|
 | TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-06 (0004 solicitudes-vacaciones fix, corrected, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩, 0004 🟨, 0004-fix 🟨, 0004-fix-corrected 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
-| TypeScript | generics and utility types | 🟥 | — | 0/3 |
+| TypeScript | generics and utility types | 🟥 | 2026-07-06 (0005 perfiles-repositorio fix, 🟩 — see `log.md`) | 1/3 at 🟩 (0005 🟨, 0005-fix 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | discriminated unions / type guards | 🟥 | — | 0/3 |
 | TypeScript | runtime validation (Zod) | 🟥 | — | 0/3 |
 | React/Next | components + basic hooks | 🟥 | — | 0/3 |
