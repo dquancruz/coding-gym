@@ -2,9 +2,9 @@
 
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
-**Current streak:** 3 days
+**Current streak:** 4 days
 **Current exercise:** none — ready for next `exercise`.
-**Last reviewed:** TS 0005 perfiles-repositorio (fix) — 🟩 (2026-07-06, structuredClone fix + 12 tests incl. regression test for the prior Date bug — see `log.md`).
+**Last reviewed:** TS 0006 estado-pedido-en-vivo — 🟩 (2026-07-07, first exposure to discriminated unions/type guards, exceeded 🟥 target immediately — verified exhaustiveness check by hand, see `log.md`).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -17,7 +17,7 @@
 |---|---|---|---|---|
 | TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-06 (0004 solicitudes-vacaciones fix, corrected, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩, 0004 🟨, 0004-fix 🟨, 0004-fix-corrected 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | generics and utility types | 🟥 | 2026-07-06 (0005 perfiles-repositorio fix, 🟩 — see `log.md`) | 1/3 at 🟩 (0005 🟨, 0005-fix 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
-| TypeScript | discriminated unions / type guards | 🟥 | — | 0/3 |
+| TypeScript | discriminated unions / type guards | 🟥 | 2026-07-07 (0006 estado-pedido-en-vivo, 🟩 — see `log.md`) | 1/3 at 🟩 (0006 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | runtime validation (Zod) | 🟥 | — | 0/3 |
 | React/Next | components + basic hooks | 🟥 | — | 0/3 |
 | React/Next | App Router (server/client components) | 🟥 | — | 0/3 |
