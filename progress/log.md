@@ -10,6 +10,38 @@
 
 ---
 
+## 2026-07-08 — [TypeScript] 0007 validacion-pedido-entrante — verdict (🟩)
+**Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 3 · Explanation 4
+**Learned:** First exposure to Zod and already using it like someone who's shipped it before: `z.infer` to derive `Pedido` instead of a hand-written duplicate interface, `.safeParse()` (never `.parse()`) so `procesarPedido` truly never throws, `z.enum` instead of a loose string, and — unprompted, since the hint only mentioned `z.string().email()` — the newer Zod v4 top-level `z.email()`. The discriminated-union result type (`{ok:true,...} | {ok:false,...}`) is a direct callback to 0006; you're already reaching for that pattern by default instead of a boolean flag. All 5 tests pass (`vitest run`), and the file type-checks clean under `tsc --strict`. Tests cover happy path, invalid email, empty `items`, negative `cantidad`, and a "never throws" sweep over `null`/string/number/`undefined` garbage. The stretch goal note (why `total` vs. item sum can't be validated without `precioUnitario`, plus the exact `.refine()` you'd write if it existed) is genuinely a discarded-alternative writeup — that's Mid→Senior-flavored communication, not just Junior→Mid correctness.
+**To improve:** Nothing broke, but one design decision is silent: `z.object({...})` strips unknown keys by default. Coming from a legacy system, that's a real fork — do you want to tolerate fields you don't know about yet (current behavior), or reject anything unexpected as a signal the legacy system's contract changed underneath you? Right now that choice was made by omission, not on purpose.
+**Suggested next refactor:**
+```ts
+// before — permissive by default, undocumented
+export const pedidoSchema = z.object({
+  id: z.string().min(1, "no puede estar vacío"),
+  // ...
+});
+```
+```ts
+// after — same permissive behavior, but now it's a stated decision
+// Deliberately permissive: el sistema legacy puede agregar campos nuevos
+// antes de que actualicemos este schema; los ignoramos en vez de romper
+// el pipeline. Si en algún momento un campo desconocido debe ser señal de
+// alerta (ej. drift de contrato), cambiar a `.strict()` acá.
+export const pedidoSchema = z.object({
+  id: z.string().min(1, "no puede estar vacío"),
+  // ...
+});
+```
+Same code, but now the choice is legible to the next person (or you, in six
+months) instead of being an implicit Zod default. Also worth one more test:
+a payload where `cantidad` arrives as the string `"2"` instead of the number
+`2` — confirms you're relying on Zod's lack of coercion on purpose, not by
+luck.
+**Next skill to rotate in:** you're now 1/3 toward `level up` on Zod — two
+more consecutive 🟩 there. TypeScript overall still needs 2 more 🟩 on basic
+types and 2 more on generics before any of those qualify either.
+
 ## 2026-07-01 — [TypeScript] 0001 catalogo-carrito — verdict (🟥)
 **Score:** Correctness 1 · Readability 2 · Idiomatic 2 · Tests 1 · Errors 2 · Design 1 · Performance 3 · Explanation 1
 **Learned:** `interface Product` well typed, correct literal union on `estado`, zero `any` (verified with `tsc --strict`). `applyDiscount` and `calculateTotal` are correctly solved with immutable spread/reduce.
