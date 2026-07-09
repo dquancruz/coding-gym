@@ -2,9 +2,9 @@
 
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
-**Current streak:** 5 days
+**Current streak:** 6 days
 **Current exercise:** none — ready for next `exercise`.
-**Last reviewed:** TS 0007 validacion-pedido-entrante — 🟩 (2026-07-08, first exposure to Zod, exceeded 🟥 target immediately — used `z.enum`, `z.infer`, `safeParse`, and even the newer top-level `z.email()` idiom unprompted; see `log.md`).
+**Last reviewed:** Node 0001 api-tareas-soporte — 🟩, exercise complete (2026-07-09, error-middleware bug found, fixed, and now pinned by a regression test — 8/8 tests passing, `tsc --strict` clean; see `log.md`).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -22,7 +22,7 @@
 | React/Next | components + basic hooks | 🟥 | — | 0/3 |
 | React/Next | App Router (server/client components) | 🟥 | — | 0/3 |
 | React/Next | data fetching + Server Actions | 🟥 | — | 0/3 |
-| Node | basic REST + layered structure | 🟥 | — | 0/3 |
+| Node | basic REST + layered structure | 🟥 | 2026-07-09 (0001 api-tareas-soporte fix, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟩, 0001-fix 🟩 — need 2 more consecutive 🟩 on a NEW exercise to qualify for `level up`) |
 | Node | auth (JWT) | 🟥 | — | 0/3 |
 | Node | centralized error handling | 🟥 | — | 0/3 |
 | SQL | SELECT/JOIN/aggregations | 🟥 | — | 0/3 |
