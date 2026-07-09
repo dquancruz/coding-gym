@@ -10,6 +10,59 @@
 
 ---
 
+## 2026-07-09 — [Node] 0001 api-tareas-soporte — verdict (🟩)
+**Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 3 · Errors 3 · Design 4 · Performance 3 · Explanation 4
+**Learned:** First Node/Express exercise and the layering is genuinely clean, not file-split theater: `repository` only knows `Tarea[]` and generates its own id via a counter (not `array.length`, so ids survive deletions), `service` only moves domain objects, `controller` is the only file that imports `Request`/`Response`, `routes` has zero logic. `app.ts`/`server.ts` are correctly split so `supertest` can hit `app` without binding a port. Directly reused the `safeParse` pattern from the TypeScript/Zod track at a real system boundary (HTTP body) instead of just at a function argument — good transfer. All 7 required test scenarios from the README are present and pass (verified via `vitest run`), with `beforeEach(limpiar)` correctly resetting in-memory state between tests. `tsc --strict --noImplicitAny` compiles clean.
+**To improve:** The error middleware (`src/app.ts:20-23`) always responds `500`, regardless of the error's actual origin. Verified by running the server and sending it malformed JSON directly: `body-parser` (used internally by `express.json()`) attaches `statusCode: 400` to that exact error — it already knows it's the client's fault — but the middleware ignores that and reports every error as a server failure. In production this pollutes 5xx dashboards/alerts with client-caused errors. It's also unverified by the test suite: none of the 7 tests exercise the error-middleware path at all, so this shipped untested — same "did you actually run the failure path" gap that's shown up before in this track's TS exercises, just moved to HTTP-level errors instead of type errors. Minor/non-blocking: `GET /tareas/abc` (`Number("abc")` → `NaN`) silently resolves to `404` instead of `400` — defensible, but looks accidental without a comment.
+**Suggested next refactor:**
+```ts
+// Before — every error becomes 500, even ones that already know their status
+app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err);
+  return res.status(500).json({ error: "Error interno del servidor" });
+});
+
+// After — trust the status the error already carries; default to 500 only for unknowns
+function tieneStatusCode(err: unknown): err is { statusCode: number } {
+  return typeof err === "object" && err !== null &&
+    "statusCode" in err && typeof (err as { statusCode: unknown }).statusCode === "number";
+}
+app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
+  console.error(err);
+  const statusCode = tieneStatusCode(err) ? err.statusCode : 500;
+  const mensaje = statusCode < 500 ? "Solicitud inválida" : "Error interno del servidor";
+  return res.status(statusCode).json({ error: mensaje });
+});
+```
+Add the regression test that would've caught it: POST a raw malformed-JSON body (`.set('Content-Type', 'application/json').send('{titulo: bad')`, not `.send(obj)`) and assert `400`, not `500`.
+**Next skill to rotate in:** first 🟩 on Node's "basic REST + layered structure" (1/3 toward `level up` for that skill). Node was chosen this round over TypeScript specifically because it's the phase's secondary track and had never been touched (0/3) while TS had 7 exercises in a row — that imbalance is now closed for this week.
+
+## 2026-07-09 — [Node] 0001 api-tareas-soporte (fix) — verdict (🟩)
+**Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 3 · Errors 4 · Design 4 · Performance 3 · Explanation 4
+**Learned:** Applied the exact suggested fix (`tieneStatusCode` type guard reading `err.statusCode`, defaulting to 500 only for genuinely unknown errors) unprompted, no second hint needed. Verified independently on a live server: malformed JSON now returns `400 {"error":"Solicitud inválida"}` instead of `500` — confirmed the fix addresses the real bug, not just a plausible-looking diff. Sanity-checked the adjacent paths didn't regress: normal Zod validation still 400s correctly, normal creation still 201s correctly. `tsc --strict` compiles clean, all 7 original tests still pass.
+**To improve:** Didn't add the regression test I asked for (malformed-JSON body → assert 400) — the fix is correct but still unverified by the suite itself, so nothing stops this from silently regressing later. Also didn't touch the minor NaN-id note (`GET /tareas/abc` → 404 by accident, not by design) — acceptable since I flagged that one as non-blocking.
+**Suggested next refactor:** Add the missing regression test:
+```ts
+it("responde 400 (no 500) si el JSON del body está mal formado", async () => {
+  const respuesta = await request(app)
+    .post("/tareas")
+    .set("Content-Type", "application/json")
+    .send("{titulo: bad json");
+
+  expect(respuesta.status).toBe(400);
+});
+```
+That's the actual bar for "done" on an error-handling fix: not just that it works when I poke it manually, but that the suite pins it down so it can't come back unnoticed.
+**Note on process:** my first verification pass after this fix falsely read as "still broken" (500) — turned out to be a stale server process from the previous review still bound to port 3000, answering with the old code. Killed it and retested clean. Worth knowing for your own workflow too: if `npm run dev` / manual curl checks ever give a surprising result after a fix, check `netstat`/task manager for a leftover process on the port before trusting the result.
+
+## 2026-07-09 — [Node] 0001 api-tareas-soporte (regression test added) — verdict (🟩)
+**Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 3 · Explanation 4
+**Learned:** Added exactly the regression test asked for — malformed JSON body asserts `400`, not `500`. Verified independently: `tsc --strict` compiles clean, all 8 tests pass via `vitest run` (up from 7), and confirmed on a live server (after clearing a stray process left on port 3000 from my own earlier manual testing, unrelated to the student's work) that the behavior matches what the test now pins down. This closes the "Tests" gap from the previous two reviews — the error-handling fix is now guarded against silent regression, not just manually spot-checked. Exercise is functionally complete against all README acceptance criteria.
+**To improve (non-blocking):** Indentation on the new test (lines 34–39) is 2 spaces instead of the file's established 4 — cosmetic only, doesn't affect correctness. Separately, a structural note surfaced while preparing this for a PR: the repo's established convention (see 0007's commit) is a single shared root `package.json`/lockfile for all exercises; this Node exercise instead has its own local `package.json` + `pnpm-lock.yaml` (reasonable — a runnable Express server needs its own scripts/port, unlike a plain TS file), but `express`/`supertest`/their `@types` also ended up added to the *root* `package.json`/`package-lock.json`, which nothing at root actually needs. Flagged separately for a decision before opening the PR.
+**Suggested next refactor:** None needed for the exercise itself — this is done. Fix the indentation on the new test whenever convenient.
+
+---
+
 ## 2026-07-08 — [TypeScript] 0007 validacion-pedido-entrante — verdict (🟩)
 **Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 3 · Explanation 4
 **Learned:** First exposure to Zod and already using it like someone who's shipped it before: `z.infer` to derive `Pedido` instead of a hand-written duplicate interface, `.safeParse()` (never `.parse()`) so `procesarPedido` truly never throws, `z.enum` instead of a loose string, and — unprompted, since the hint only mentioned `z.string().email()` — the newer Zod v4 top-level `z.email()`. The discriminated-union result type (`{ok:true,...} | {ok:false,...}`) is a direct callback to 0006; you're already reaching for that pattern by default instead of a boolean flag. All 5 tests pass (`vitest run`), and the file type-checks clean under `tsc --strict`. Tests cover happy path, invalid email, empty `items`, negative `cantidad`, and a "never throws" sweep over `null`/string/number/`undefined` garbage. The stretch goal note (why `total` vs. item sum can't be validated without `precioUnitario`, plus the exact `.refine()` you'd write if it existed) is genuinely a discarded-alternative writeup — that's Mid→Senior-flavored communication, not just Junior→Mid correctness.
