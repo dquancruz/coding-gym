@@ -12,3 +12,7 @@ venv/
 target/
 bin/
 obj/
+
+# sandboxes de ejercicios de Git (repos anidados generados por setup scripts,
+# nunca se commitean — cada uno se regenera corriendo su crear-escenario.sh)
+**/exercises/*/sandbox/
