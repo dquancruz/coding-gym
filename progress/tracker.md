@@ -2,9 +2,9 @@
 
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
-**Current streak:** 6 days
+**Current streak:** 7 days
 **Current exercise:** none — ready for next `exercise`.
-**Last reviewed:** Node 0001 api-tareas-soporte — 🟩, exercise complete (2026-07-09, error-middleware bug found, fixed, and now pinned by a regression test — 8/8 tests passing, `tsc --strict` clean; see `log.md`).
+**Last reviewed:** Fundamentals 0001 rebase-sin-panico — 🟩 (2026-07-10, first Git rebase/conflict exercise, exceeded 🟥 target — correctly recovered mid-rebase without panicking or resetting when the first attempt left 2 commits instead of 1; commit message doesn't fully match the final squashed diff, note has typos; see `log.md`).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -27,7 +27,7 @@
 | Node | centralized error handling | 🟥 | — | 0/3 |
 | SQL | SELECT/JOIN/aggregations | 🟥 | — | 0/3 |
 | Python | syntax + basic typing | 🟥 | — | 0/3 |
-| Fundamentals | Git (branches, rebase) | 🟥 | — | 0/3 |
+| Fundamentals | Git (branches, rebase) | 🟥 | 2026-07-10 (0001 rebase-sin-panico, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | Fundamentals | basic Docker | 🟥 | — | 0/3 |
 | Java | syntax + collections | 🟥 | — | 0/3 |
 | .NET | syntax + basic LINQ | 🟥 | — | 0/3 |

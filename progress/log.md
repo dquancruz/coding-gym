@@ -10,6 +10,22 @@
 
 ---
 
+## 2026-07-10 — [Fundamentals] 0001 rebase-sin-panico — verdict (🟩)
+**Score:** Correctness 4 · Readability 3 · Idiomatic 4 · Tests 3 · Errors/Recovery 4 · Design 4 · Performance 3 · Explanation 3
+**Learned:** First Git rebase/conflict exercise, exceeded the 🟥 target on first exposure — same pattern as every first-exposure exercise in this repo so far. The reflog tells the real story: first attempt rebased with both commits picked, resolved the conflict once, ended up with 2 commits instead of the required 1; recognized that and ran a *second* interactive rebase to fixup the `wip` commit in, with no `reset --hard` and no restarting from scratch — genuine forward-correction-without-panic, which is the actual skill this exercise targets, not just "can you type `git rebase`." Conflict resolution correctly combined both legitimate changes (cafe's price bump from `main` + the rename from `feature`) instead of picking a side — verified independently against `precios.txt`'s final content and `tests/verificar.sh` (all 5 checks green). `decision.md` correctly reasons through both asked questions: why rebase over merge (clean history, no merge commit + wip noise) and how the conflict was resolved (combine, don't choose a side).
+**To improve:** The final squashed commit message (`feat: renombrar cafe a 'cafe negro' y agregar te al catalogo`) describes the *original* pre-conflict commit's intent, not what the commit actually contains after the squash + conflict resolution — it also now changes the cafe price and fixes the te price, neither mentioned. This is the exact failure mode atomic-commit discipline is supposed to prevent: the message has to track the diff, not the commit's original pre-squash purpose. Separately, `decision.md` has the right reasoning but needs a proofread pass (missing tildes, "si se hacer marge" instead of "si se hace merge") — the README explicitly asked for notes legible to someone reading them in 6 months, same bar as commit messages. Minor/unscored: a no-op `git commit --amend` appears in the reflog right after the fixup (identical tree and message before/after) — not wrong, just worth being able to explain why.
+**Suggested next refactor:**
+```
+# Before
+feat: renombrar cafe a 'cafe negro' y agregar te al catalogo
+
+# After — names everything the diff actually touches
+feat: renombrar cafe a 'cafe negro', agregar te y actualizar precio del cafe
+```
+**Next skill to rotate in:** first 🟩 on Fundamentals' Git skill (1/3 toward `level up`). All other maintenance tracks (SQL, Python, Docker, Java, .NET, Rails) are still at 0/3, never practiced — still the biggest gap in the rotation.
+
+---
+
 ## 2026-07-09 — [Node] 0001 api-tareas-soporte — verdict (🟩)
 **Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 3 · Errors 3 · Design 4 · Performance 3 · Explanation 4
 **Learned:** First Node/Express exercise and the layering is genuinely clean, not file-split theater: `repository` only knows `Tarea[]` and generates its own id via a counter (not `array.length`, so ids survive deletions), `service` only moves domain objects, `controller` is the only file that imports `Request`/`Response`, `routes` has zero logic. `app.ts`/`server.ts` are correctly split so `supertest` can hit `app` without binding a port. Directly reused the `safeParse` pattern from the TypeScript/Zod track at a real system boundary (HTTP body) instead of just at a function argument — good transfer. All 7 required test scenarios from the README are present and pass (verified via `vitest run`), with `beforeEach(limpiar)` correctly resetting in-memory state between tests. `tsc --strict --noImplicitAny` compiles clean.
