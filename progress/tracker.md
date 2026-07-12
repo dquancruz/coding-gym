@@ -3,7 +3,7 @@
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
 **Current streak:** 7 days
-**Current exercise:** none — ready for next `exercise`.
+**Current exercise:** TypeScript 0008 tarifas-alquiler-vehiculos (basic types — no hints, toward `level up`).
 **Last reviewed:** Fundamentals 0001 rebase-sin-panico — 🟩 (2026-07-10, first Git rebase/conflict exercise, exceeded 🟥 target — correctly recovered mid-rebase without panicking or resetting when the first attempt left 2 commits instead of 1; commit message doesn't fully match the final squashed diff, note has typos; see `log.md`).
 
 ## This phase's distribution
