@@ -3,8 +3,8 @@
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
 **Current streak:** 7 days
-**Current exercise:** TypeScript 0008 tarifas-alquiler-vehiculos (basic types — no hints, toward `level up`).
-**Last reviewed:** Fundamentals 0001 rebase-sin-panico — 🟩 (2026-07-10, first Git rebase/conflict exercise, exceeded 🟥 target — correctly recovered mid-rebase without panicking or resetting when the first attempt left 2 commits instead of 1; commit message doesn't fully match the final squashed diff, note has typos; see `log.md`).
+**Current exercise:** — (none in progress; run `exercise` for the next one).
+**Last reviewed:** TypeScript 0008 tarifas-alquiler-vehiculos — 🟩 (2026-07-12, strong basic-types submission: separate error classes per invariant, exhaustive `switch` with `never`-check for membership discounts, function overloads implemented correctly, promo type guard normalizes input and documents the decision in-line; test file initially reimplemented its own runner instead of `vitest` and failed as a suite when run through `vitest run` — fixed same day, now 28/28 green via `describe/it/expect`; see `log.md`).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -15,7 +15,7 @@
 
 | Track | Skill | Level | Last practice | Exercises at target level |
 |---|---|---|---|---|
-| TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-06 (0004 solicitudes-vacaciones fix, corrected, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩, 0004 🟨, 0004-fix 🟨, 0004-fix-corrected 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
+| TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-12 (0008 tarifas-alquiler-vehiculos, 🟩 — see `log.md`) | 2/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩, 0004 🟨, 0004-fix 🟨, 0004-fix-corrected 🟩, 0008 🟩 — need 1 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | generics and utility types | 🟥 | 2026-07-06 (0005 perfiles-repositorio fix, 🟩 — see `log.md`) | 1/3 at 🟩 (0005 🟨, 0005-fix 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | discriminated unions / type guards | 🟥 | 2026-07-07 (0006 estado-pedido-en-vivo, 🟩 — see `log.md`) | 1/3 at 🟩 (0006 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | runtime validation (Zod) | 🟥 | 2026-07-08 (0007 validacion-pedido-entrante, 🟩 — see `log.md`) | 1/3 at 🟩 (0007 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
