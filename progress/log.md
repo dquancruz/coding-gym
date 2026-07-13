@@ -10,6 +10,34 @@
 
 ---
 
+## 2026-07-12 — [TypeScript] 0008 tarifas-alquiler-vehiculos — verdict (🟩)
+**Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 4 · Explanation 4 (updated same day — see **Fix applied** below; original score before fix was Idiomatic 3 · Tests 3)
+**Learned:** The two invariant checks (`reserva.vehiculoId === vehiculo.id`, `reserva.usuarioId === usuario.id`) are validated separately and throw distinct error classes (`VehiculoNoCoincideError`, `UsuarioNoCoincideError`) off a shared `RelacionInvalidaError` base — correctly distinguishes "two different failures" instead of collapsing them into one generic throw. `descuentoPorMembresia` centralizes all membership discount logic behind a `switch` with a `never`-typed `default`, so adding a membership to the `Membresia` union without updating the switch is now a compile error, not a silent 0%-discount bug — genuinely senior-adjacent defensive typing for a Mid-level exercise. Surge narrowing uses the `in` operator on the `TarifaBase | TarifaConSurge` union instead of an `as` cast. `esCodigoPromoValido` type guard normalizes (`trim().toUpperCase()`) before comparing and the file documents *why* normalization was chosen over strict rejection (2-3 line rationale, as the README's stretch goal asked). Ran the full suite directly (`npx vitest run`) and independently verified strict compilation (`tsc --strict --noImplicitAny`, temp config): 0 type errors, and all 28 hand-written assertions pass (surge, premium, corporativa with known/unknown/missing `empresaId`, both promo codes, 12 garbage `codigoPromo` values incl. objects/arrays/booleans, both mismatch cases, both `formatearRecibo` overloads). Coverage exceeds the README's minimum (asked for 3 garbage cases, delivered 12) and includes the `corporativa` stretch goal unprompted.
+**To improve:** ~~`tests/tarifas.test.ts` reimplements its own `test`/`igual`/`lanza` runner instead of using `vitest`'s `describe/it/expect`~~ — **fixed same day** (see **Fix applied** below). Still open, lower priority: `esCodigoPromoValido`'s type predicate (`x is CodigoPromo`) is technically unsound — it accepts `' black10 '` and narrows it to the literal type `'BLACK10' | 'SUMMER15'`, but the runtime value is still `' black10 '`, not `'BLACK10'`. The code happens to be safe today because `canonizar` re-normalizes before every use, but a future caller who trusts the narrowed type (e.g. `if (codigo === 'BLACK10')` right after the guard) would get silently wrong behavior on lowercase input. Worth a one-line comment on the type guard warning callers to keep using `canonizar`, not the raw narrowed value.
+**Fix applied (2026-07-12):** `tests/tarifas.test.ts` rewritten with `describe`/`it`/`expect` from `vitest`, matching 0006/0007's convention. The 12 garbage-`codigoPromo` cases now use `it.each` instead of a manual `for` loop. Re-verified: `npx vitest run` → 28/28 passed, suite green (previously reported `FAILED — No test suite found`); `tsc --strict --noImplicitAny` still 0 errors. Idiomatic and Tests bumped from 3→4 to reflect this.
+**Suggested next refactor (already applied — kept for reference):**
+```ts
+// Before — hand-rolled runner, invisible to `vitest run`
+function test(nombre: string, fn: () => void): void {
+  try { fn(); pasaron++; } catch (e) { fallaron.push(nombre); }
+}
+test('sin surge, sin promo, membresía básica', () => {
+  igual(calcularCostoFinal(reserva(), vehiculo, basico, tarifa), 20);
+});
+
+// After — registers with vitest, matches 0006/0007's convention, runs in CI
+import { describe, it, expect } from 'vitest';
+
+describe('calcularCostoFinal', () => {
+  it('sin surge, sin promo, membresía básica', () => {
+    expect(calcularCostoFinal(reserva(), vehiculo, basico, tarifa)).toBe(20);
+  });
+});
+```
+**Next skill to rotate in:** `basic types` is now 2/3 consecutive 🟩 (0004-fix-corrected, 0008) — one more clean 🟩 on this skill qualifies for `level up`. Node's `basic REST + layered structure` is at the same 2/3 mark and closer chronologically; SQL, Python, Docker, Java, .NET, and Rails remain at 0/3 and are the biggest gap in the maintenance rotation.
+
+---
+
 ## 2026-07-10 — [Fundamentals] 0001 rebase-sin-panico — verdict (🟩)
 **Score:** Correctness 4 · Readability 3 · Idiomatic 4 · Tests 3 · Errors/Recovery 4 · Design 4 · Performance 3 · Explanation 3
 **Learned:** First Git rebase/conflict exercise, exceeded the 🟥 target on first exposure — same pattern as every first-exposure exercise in this repo so far. The reflog tells the real story: first attempt rebased with both commits picked, resolved the conflict once, ended up with 2 commits instead of the required 1; recognized that and ran a *second* interactive rebase to fixup the `wip` commit in, with no `reset --hard` and no restarting from scratch — genuine forward-correction-without-panic, which is the actual skill this exercise targets, not just "can you type `git rebase`." Conflict resolution correctly combined both legitimate changes (cafe's price bump from `main` + the rename from `feature`) instead of picking a side — verified independently against `precios.txt`'s final content and `tests/verificar.sh` (all 5 checks green). `decision.md` correctly reasons through both asked questions: why rebase over merge (clean history, no merge commit + wip noise) and how the conflict was resolved (combine, don't choose a side).
