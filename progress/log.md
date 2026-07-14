@@ -10,6 +10,35 @@
 
 ---
 
+## 2026-07-14 — [TypeScript] 0010 transiciones-pago-webhooks — verdict (🟩)
+**Score:** Correctness 3 · Readability 3 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 4 · Explanation 4
+**Learned:** Second discriminated-unions/type-guards exercise, and this one adds a dimension 0006 didn't test: narrowing an actually-`unknown` value (simulated `JSON.parse(webhookBody)`), not just switching over an already-typed value. `parsearEventoGateway` correctly rejects 12 garbage payloads (`null`, `{}`, `[]`, wrong-typed fields, unknown `type`, `NaN` via `Number.isFinite`, invalid dates via `new Date(x).getTime()` NaN-check) without throwing — independently verified via `tsc --strict --noImplicitAny` (0 errors) and `vitest run` (29/29 passing). The `never`-exhaustiveness check in `aplicarEvento`'s switch is real, not decorative — verified independently by adding a 6th event type (`contracargo_recibido`) in a scratch copy: compilation broke in two places, the `nunca(evento)` call *and* every object literal in `TABLA_TRANSICIONES` (a `Record<EstadoTag, Record<EventoTag, boolean>>`), so both the exhaustive switch and the stretch-goal `canTransition` table are genuinely forced to stay in sync with the union, not just claimed to be. The refund-accumulation invariant that motivated the exercise (never let `sum(reembolsos) > montoCapturado`) is correctly enforced across both a single oversized refund and an accumulated one, and the exact-equality boundary (`nuevoTotal === montoCapturado` → `reembolsado`, not `parcialmente_reembolsado`) is correct and tested from both a single full refund and two partials that sum to the total. The throw-vs-Result decision is justified with real webhook-specific reasoning (a thrown 500 makes the gateway retry the same rejected event forever; a `Result` lets the handler answer 200 and log the rejection) — this is Mid→Senior-flavored tradeoff communication, not just a Junior→Mid design note. The idempotency question was left deliberately open in the README, and the answer given (state-transition retries like `captura_exitosa` are treated as a no-op; refund retries are NOT, because two legitimate refunds can legitimately share an amount) is reasoned, not arbitrary, and backed by a dedicated test for each side of the asymmetry.
+**To improve:** The idempotency no-op for `captura_exitosa` on an already-`capturado` payment checks only `estado.status === 'capturado'` — it never checks that `evento.monto` actually matches `estado.montoCapturado`. Verified directly: sending `captura_exitosa` with `monto: 1000` then a second `captura_exitosa` with `monto: 999` on the same payment returns `{ ok: true, valor: { status: 'capturado', montoCapturado: 1000, ... } }` — the mismatched amount is silently discarded, no error, no signal. This contradicts the stated rationale for treating it as a no-op ("el gateway solo captura una vez, el segundo webhook es su reintento") — that assumption is asserted but never checked against the actual event data. A capture retry that reports a *different* amount isn't a retry, it's either a corrupted webhook or a second real capture attempt, and it's exactly the same failure shape as the incident this exercise is built around (a mismatch between two things that should agree, caught only by chance, not by validation) — just moved from the refund path to the capture path. Not covered by any of the 29 tests, so nothing currently pins this down. Minor/non-blocking, recurring: the `// ====...` ASCII section-divider comments (`Types`, `Resultado de transición`, `Parsing de unknown`, etc.) are the same pattern flagged as a minor note on 0006 and 0009 — the WHY-comments underneath them earn their place, the banners themselves don't; this is the third exercise in a row with this exact note, worth actually fixing once rather than re-flagging.
+**Suggested next refactor:**
+```ts
+// Before (aplicarEvento, case 'captura_exitosa') — any retry with any amount is a no-op
+case 'captura_exitosa': {
+  if (estado.status === 'capturado') return ok(estado);
+  // ...
+}
+
+// After — only a matching amount is actually the same event retried
+case 'captura_exitosa': {
+  if (estado.status === 'capturado') {
+    return evento.monto === estado.montoCapturado
+      ? ok(estado)
+      : err(
+          `Reintento de captura con monto distinto: ya capturado ${estado.montoCapturado}, evento reporta ${evento.monto}`,
+        );
+  }
+  // ...
+}
+```
+Add the regression test that would've caught it: `capturar(1000)` on an authorized payment, then `capturar(999)` on the resulting `capturado` state → must be `{ ok: false }`, not a silent no-op.
+**Next skill to rotate in:** discriminated unions/type guards now 2/3 consecutive 🟩 (0006, 0010) — one more clean 🟩 qualifies it for `level up`. Basic types and generics both already sit at the same 2/3 mark. Zod is at 1/3, still the least-practiced TS skill after this one closes the gap. Node's basic REST is 1/3 and hasn't been touched since 2026-07-09 (5 days) — due for rotation soon since it's the phase's secondary track. SQL, Python, Docker, Java, .NET, and Rails remain at 0/3, still the biggest gap in the maintenance rotation.
+
+---
+
 ## 2026-07-13 — [TypeScript] 0009 bus-eventos-tipado — verdict (🟩)
 **Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 4 · Explanation 4
 **Learned:** Strongest generics submission in the track. `EventMap` (an `interface`, deliberately, to allow declaration merging) drives inference through `on`/`off`/`emit` via `keyof`/indexed access — independently verified the compiler actually rejects a handler with the wrong payload shape, an `emit` missing a required field, and an invalid event-key literal (all three confirmed by writing throwaway files and running `tsc --strict --noImplicitAny` against them). `PayloadDe<H>` (conditional type + `infer`, the stretch goal) is genuinely used in `emit`'s signature rather than defined-and-unused — confirmed it resolves to the real payload type rather than collapsing to `never` by checking that a correct payload compiles and an incomplete one still errors with the precise missing field. Both behaviors the exercise deliberately left undecided — a handler throwing mid-`emit`, and double-unsubscribe — are resolved, documented with reasoning, and each backed by a dedicated test (not just an assertion that nothing throws). The "Record vs. Map" and "interface vs. `Record<string, unknown>` constraint" design notes are both technically correct, not just plausible — verified the second one specifically: a plain `interface` really doesn't satisfy `Record<string, unknown>` because it has no implicit index signature, which is why the code uses `T extends Record<keyof T, unknown>` instead. Defensive copy (`[...lista]`) during `emit` iteration correctly handles a handler that subscribes/unsubscribes itself mid-emit — tested directly.
