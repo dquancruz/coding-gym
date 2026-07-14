@@ -2,9 +2,9 @@
 
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
-**Current streak:** 8 days
+**Current streak:** 9 days
 **Current exercise:** — (none in progress; run `exercise` for the next one).
-**Last reviewed:** TypeScript 0009 bus-eventos-tipado — 🟩 (2026-07-13, strong generics/utility-types submission: `EventMap`-driven inference across `on`/`off`/`emit` verified to actually reject mismatched handlers at compile time, `PayloadDe<H>` conditional+`infer` type genuinely used (not decorative) and confirmed to resolve to the real payload shape, both left-open behaviors (throwing handler, double-unsubscribe) decided and covered by dedicated tests; real gap found: `onOnce` stores a wrapper instead of the caller's handler reference, so `off(evento, handlerPassedToOnOnce)` silently no-ops instead of unsubscribing — see `log.md` for the fix).
+**Last reviewed:** TypeScript 0010 transiciones-pago-webhooks — 🟩 (2026-07-14, strong discriminated-unions/type-guards submission: `EstadoPago`/`EventoGateway` correctly model each state/event with only its own fields, `parsearEventoGateway` independently verified to reject 12 garbage payloads without throwing (confirmed via `tsc --strict` + `vitest run`, 29/29 green), the refund-accumulation invariant from the incident is correctly enforced, and the throw-vs-Result decision plus the idempotency asymmetry are both genuinely reasoned in writing, not decorative; real gap found: the "duplicate capture is a no-op" shortcut checks only `estado.status === 'capturado'`, never that `evento.monto` matches what was already captured — verified a second `captura_exitosa` with a *different* amount is silently swallowed instead of rejected, same bug species as this track's recurring "only one of two things that should be validated together actually is" — see `log.md` for the fix).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -17,7 +17,7 @@
 |---|---|---|---|---|
 | TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-12 (0008 tarifas-alquiler-vehiculos, 🟩 — see `log.md`) | 2/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩, 0004 🟨, 0004-fix 🟨, 0004-fix-corrected 🟩, 0008 🟩 — need 1 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | generics and utility types | 🟥 | 2026-07-13 (0009 bus-eventos-tipado, 🟩 — see `log.md`) | 2/3 at 🟩 (0005 🟨, 0005-fix 🟩, 0009 🟩 — need 1 more consecutive 🟩 to qualify for `level up`) |
-| TypeScript | discriminated unions / type guards | 🟥 | 2026-07-07 (0006 estado-pedido-en-vivo, 🟩 — see `log.md`) | 1/3 at 🟩 (0006 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
+| TypeScript | discriminated unions / type guards | 🟥 | 2026-07-14 (0010 transiciones-pago-webhooks, 🟩 — see `log.md`) | 2/3 at 🟩 (0006 🟩, 0010 🟩 — need 1 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | runtime validation (Zod) | 🟥 | 2026-07-08 (0007 validacion-pedido-entrante, 🟩 — see `log.md`) | 1/3 at 🟩 (0007 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | React/Next | components + basic hooks | 🟥 | — | 0/3 |
 | React/Next | App Router (server/client components) | 🟥 | — | 0/3 |
