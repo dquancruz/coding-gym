@@ -2,9 +2,9 @@
 
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
-**Current streak:** 7 days
+**Current streak:** 8 days
 **Current exercise:** — (none in progress; run `exercise` for the next one).
-**Last reviewed:** TypeScript 0008 tarifas-alquiler-vehiculos — 🟩 (2026-07-12, strong basic-types submission: separate error classes per invariant, exhaustive `switch` with `never`-check for membership discounts, function overloads implemented correctly, promo type guard normalizes input and documents the decision in-line; test file initially reimplemented its own runner instead of `vitest` and failed as a suite when run through `vitest run` — fixed same day, now 28/28 green via `describe/it/expect`; see `log.md`).
+**Last reviewed:** TypeScript 0009 bus-eventos-tipado — 🟩 (2026-07-13, strong generics/utility-types submission: `EventMap`-driven inference across `on`/`off`/`emit` verified to actually reject mismatched handlers at compile time, `PayloadDe<H>` conditional+`infer` type genuinely used (not decorative) and confirmed to resolve to the real payload shape, both left-open behaviors (throwing handler, double-unsubscribe) decided and covered by dedicated tests; real gap found: `onOnce` stores a wrapper instead of the caller's handler reference, so `off(evento, handlerPassedToOnOnce)` silently no-ops instead of unsubscribing — see `log.md` for the fix).
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -16,7 +16,7 @@
 | Track | Skill | Level | Last practice | Exercises at target level |
 |---|---|---|---|---|
 | TypeScript | basic types (interfaces, unions) | 🟥 | 2026-07-12 (0008 tarifas-alquiler-vehiculos, 🟩 — see `log.md`) | 2/3 at 🟩 (0001 🟥, 0002 🟨, 0003 🟩, 0004 🟨, 0004-fix 🟨, 0004-fix-corrected 🟩, 0008 🟩 — need 1 more consecutive 🟩 to qualify for `level up`) |
-| TypeScript | generics and utility types | 🟥 | 2026-07-06 (0005 perfiles-repositorio fix, 🟩 — see `log.md`) | 1/3 at 🟩 (0005 🟨, 0005-fix 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
+| TypeScript | generics and utility types | 🟥 | 2026-07-13 (0009 bus-eventos-tipado, 🟩 — see `log.md`) | 2/3 at 🟩 (0005 🟨, 0005-fix 🟩, 0009 🟩 — need 1 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | discriminated unions / type guards | 🟥 | 2026-07-07 (0006 estado-pedido-en-vivo, 🟩 — see `log.md`) | 1/3 at 🟩 (0006 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | TypeScript | runtime validation (Zod) | 🟥 | 2026-07-08 (0007 validacion-pedido-entrante, 🟩 — see `log.md`) | 1/3 at 🟩 (0007 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
 | React/Next | components + basic hooks | 🟥 | — | 0/3 |
