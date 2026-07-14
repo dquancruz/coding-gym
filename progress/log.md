@@ -10,6 +10,46 @@
 
 ---
 
+## 2026-07-13 — [TypeScript] 0009 bus-eventos-tipado — verdict (🟩)
+**Score:** Correctness 3 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 4 · Explanation 4
+**Learned:** Strongest generics submission in the track. `EventMap` (an `interface`, deliberately, to allow declaration merging) drives inference through `on`/`off`/`emit` via `keyof`/indexed access — independently verified the compiler actually rejects a handler with the wrong payload shape, an `emit` missing a required field, and an invalid event-key literal (all three confirmed by writing throwaway files and running `tsc --strict --noImplicitAny` against them). `PayloadDe<H>` (conditional type + `infer`, the stretch goal) is genuinely used in `emit`'s signature rather than defined-and-unused — confirmed it resolves to the real payload type rather than collapsing to `never` by checking that a correct payload compiles and an incomplete one still errors with the precise missing field. Both behaviors the exercise deliberately left undecided — a handler throwing mid-`emit`, and double-unsubscribe — are resolved, documented with reasoning, and each backed by a dedicated test (not just an assertion that nothing throws). The "Record vs. Map" and "interface vs. `Record<string, unknown>` constraint" design notes are both technically correct, not just plausible — verified the second one specifically: a plain `interface` really doesn't satisfy `Record<string, unknown>` because it has no implicit index signature, which is why the code uses `T extends Record<keyof T, unknown>` instead. Defensive copy (`[...lista]`) during `emit` iteration correctly handles a handler that subscribes/unsubscribes itself mid-emit — tested directly.
+**To improve:** `onOnce` stores a *wrapper* closure in the listeners array instead of the caller's actual handler reference. Verified by running it directly: `bus.onOnce(evt, handler); bus.off(evt, handler); bus.emit(evt, payload)` — the handler fires anyway, because `off`'s `indexOf(handler)` never finds it (the array holds `envoltorio`, not `handler`). Because unrecognized `off` calls are deliberately silent (decision 2, idempotency), this fails with zero signal — a caller reasonably expecting "the reference I registered can always be cancelled via `off`" gets nothing. Same bug species that's recurred through this track (0001, 0002, 0004): two references meant to identify the same thing, only one path validates the relationship. Root cause is the wrapper-based `onOnce` design; fixable by tagging `{handler, once}` tuples in the listener array instead of wrapping, so `off` always compares against the caller's real reference. Not required by the README (onOnce/off interaction wasn't spelled out), but it's an emergent expectation from the API surface, and it's the kind of silent gap that would bite in production. Minor/unscored: the file-header comment block uses decorative ASCII banner dividers — the content is genuine WHY-reasoning and earns its place, but the same note from 0006's review applies (banners aren't WHY, they're presentation; trim the scaffolding, keep the reasoning).
+**Suggested next refactor:**
+```ts
+// Before — onOnce wraps the handler, so off() can never find the caller's reference
+function onOnce<K extends keyof T>(evento: K, handler: HandlerDe<T, K>): Desuscribir {
+  const envoltorio: HandlerDe<T, K> = (payload) => { desuscribir(); handler(payload); };
+  const desuscribir = on(evento, envoltorio);
+  return desuscribir;
+}
+
+// After — tag {handler, once} instead of wrapping; off() always matches the real reference
+type Entrada<P> = { handler: Handler<P>; once: boolean };
+type Listeners<T> = { [K in keyof T]?: Array<Entrada<T[K]>> };
+
+function suscribir<K extends keyof T>(evento: K, handler: HandlerDe<T, K>, once: boolean): Desuscribir {
+  const lista = listeners[evento] ?? (listeners[evento] = []);
+  lista.push({ handler, once });
+  let yaDesuscrito = false;
+  return () => { if (!yaDesuscrito) { yaDesuscrito = true; off(evento, handler); } };
+}
+const on = <K extends keyof T>(e: K, h: HandlerDe<T, K>) => suscribir(e, h, false);
+const onOnce = <K extends keyof T>(e: K, h: HandlerDe<T, K>) => suscribir(e, h, true);
+
+function emit<K extends keyof T>(evento: K, payload: PayloadDe<HandlerDe<T, K>>): void {
+  const lista = listeners[evento];
+  if (!lista?.length) return;
+  for (const entrada of [...lista]) {
+    if (entrada.once) off(evento, entrada.handler);
+    try { entrada.handler(payload as T[K]); } catch (error) { onError(error, evento); }
+  }
+}
+```
+Add the regression test that would've caught it: `bus.onOnce(evt, handler); bus.off(evt, handler); bus.emit(evt, payload)` → handler must NOT fire.
+**Next skill to rotate in:** generics/utility types now 2/3 consecutive 🟩 (0005-fix, 0009) — one more clean 🟩 qualifies it for `level up`. Basic types is at the same 2/3 mark (0004-fix-corrected, 0008). Discriminated unions and Zod both sit at 1/3. Node's basic REST is 1/3 needing a new exercise. SQL, Python, Docker, Java, .NET, and Rails remain at 0/3 — the biggest gap in the maintenance rotation, none touched since the repo started.
+
+---
+
 ## 2026-07-12 — [TypeScript] 0008 tarifas-alquiler-vehiculos — verdict (🟩)
 **Score:** Correctness 4 · Readability 4 · Idiomatic 4 · Tests 4 · Errors 4 · Design 4 · Performance 4 · Explanation 4 (updated same day — see **Fix applied** below; original score before fix was Idiomatic 3 · Tests 3)
 **Learned:** The two invariant checks (`reserva.vehiculoId === vehiculo.id`, `reserva.usuarioId === usuario.id`) are validated separately and throw distinct error classes (`VehiculoNoCoincideError`, `UsuarioNoCoincideError`) off a shared `RelacionInvalidaError` base — correctly distinguishes "two different failures" instead of collapsing them into one generic throw. `descuentoPorMembresia` centralizes all membership discount logic behind a `switch` with a `never`-typed `default`, so adding a membership to the `Membresia` union without updating the switch is now a compile error, not a silent 0%-discount bug — genuinely senior-adjacent defensive typing for a Mid-level exercise. Surge narrowing uses the `in` operator on the `TarifaBase | TarifaConSurge` union instead of an `as` cast. `esCodigoPromoValido` type guard normalizes (`trim().toUpperCase()`) before comparing and the file documents *why* normalization was chosen over strict rejection (2-3 line rationale, as the README's stretch goal asked). Ran the full suite directly (`npx vitest run`) and independently verified strict compilation (`tsc --strict --noImplicitAny`, temp config): 0 type errors, and all 28 hand-written assertions pass (surge, premium, corporativa with known/unknown/missing `empresaId`, both promo codes, 12 garbage `codigoPromo` values incl. objects/arrays/booleans, both mismatch cases, both `formatearRecibo` overloads). Coverage exceeds the README's minimum (asked for 3 garbage cases, delivered 12) and includes the `corporativa` stretch goal unprompted.
