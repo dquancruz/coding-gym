@@ -46,7 +46,8 @@ export class ReservasService {
     // y recién después creamos la reserva, para no dejar una reserva "huérfana"
     // si el ajuste fallara.
     this.productosRepo.ajustarReservado(producto.id, datos.cantidad);
-    return this.reservasRepo.crear(datos);
+    const reserva = this.reservasRepo.crear(datos);
+    return { ...reserva };
   }
 
   obtener(id: string): Reserva {
@@ -54,7 +55,10 @@ export class ReservasService {
     if (!reserva) {
       throw new NotFoundError(`No existe una reserva con id ${id}`);
     }
-    return reserva;
+    // Copia defensiva: quien llama no debe poder mutar el estado interno del
+    // repository escribiendo directamente sobre el objeto devuelto (mismo
+    // principio que `toProductoView` ya aplica para productos).
+    return { ...reserva };
   }
 
   /**
@@ -76,12 +80,13 @@ export class ReservasService {
     }
 
     if (reserva.estado === 'cancelada') {
-      return reserva; // no-op idempotente: NO se libera stock otra vez
+      return { ...reserva }; // no-op idempotente: NO se libera stock otra vez
     }
 
     this.productosRepo.ajustarReservado(reserva.productoId, -reserva.cantidad);
     reserva.estado = 'cancelada';
-    return this.reservasRepo.guardar(reserva);
+    const guardada = this.reservasRepo.guardar(reserva);
+    return { ...guardada };
   }
 
   /** Stretch: reservas activas de un producto (404 si el producto no existe). */
@@ -90,6 +95,8 @@ export class ReservasService {
     if (!producto) {
       throw new NotFoundError(`No existe un producto con id ${productoId}`);
     }
-    return this.reservasRepo.listarActivasPorProducto(productoId);
+    return this.reservasRepo
+      .listarActivasPorProducto(productoId)
+      .map((r) => ({ ...r }));
   }
 }
