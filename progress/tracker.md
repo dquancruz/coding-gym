@@ -3,7 +3,7 @@
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
 **Current streak:** 9 days
-**Current exercise:** — (none in progress; run `exercise` for the next one).
+**Current exercise:** [Node] 0002 reservas-stock (`03-node-backend/exercises/0002-reservas-stock/`) — assigned 2026-07-15, target 🟩, no hints.
 **Last reviewed:** TypeScript 0010 transiciones-pago-webhooks — 🟩 (2026-07-14, strong discriminated-unions/type-guards submission: `EstadoPago`/`EventoGateway` correctly model each state/event with only its own fields, `parsearEventoGateway` independently verified to reject 12 garbage payloads without throwing (confirmed via `tsc --strict` + `vitest run`, 29/29 green), the refund-accumulation invariant from the incident is correctly enforced, and the throw-vs-Result decision plus the idempotency asymmetry are both genuinely reasoned in writing, not decorative; real gap found: the "duplicate capture is a no-op" shortcut checks only `estado.status === 'capturado'`, never that `evento.monto` matches what was already captured — verified a second `captura_exitosa` with a *different* amount is silently swallowed instead of rejected, same bug species as this track's recurring "only one of two things that should be validated together actually is" — see `log.md` for the fix).
 
 ## This phase's distribution
