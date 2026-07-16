@@ -3,8 +3,8 @@
 **Chosen path:** Path 1 — Full-stack Web
 **Active phase:** 🟦 Junior→Mid (Path 1)
 **Current streak:** 9 days
-**Current exercise:** [Node] 0002 reservas-stock (`03-node-backend/exercises/0002-reservas-stock/`) — assigned 2026-07-15, target 🟩, no hints.
-**Last reviewed:** TypeScript 0010 transiciones-pago-webhooks — 🟩 (2026-07-14, strong discriminated-unions/type-guards submission: `EstadoPago`/`EventoGateway` correctly model each state/event with only its own fields, `parsearEventoGateway` independently verified to reject 12 garbage payloads without throwing (confirmed via `tsc --strict` + `vitest run`, 29/29 green), the refund-accumulation invariant from the incident is correctly enforced, and the throw-vs-Result decision plus the idempotency asymmetry are both genuinely reasoned in writing, not decorative; real gap found: the "duplicate capture is a no-op" shortcut checks only `estado.status === 'capturado'`, never that `evento.monto` matches what was already captured — verified a second `captura_exitosa` with a *different* amount is silently swallowed instead of rejected, same bug species as this track's recurring "only one of two things that should be validated together actually is" — see `log.md` for the fix).
+**Current exercise:** [Node] 0002 reservas-stock (`03-node-backend/exercises/0002-reservas-stock/`) — assigned 2026-07-15, target 🟩, no hints. Reviewed 2026-07-16 as 🟨, then fixed same day (by Claude Code, not the learner — see note below) and now 🟩/complete/merged via PR.
+**Last reviewed:** Node 0002 reservas-stock — 🟨→🟩 (2026-07-16). Original submission: excellent layered architecture (routes→controller→service→repository strictly one-directional), `stockDisponible` genuinely computed not stored, idempotent-cancel and the 409-vs-400-vs-422 write-up both well reasoned, `tsc --noEmit` clean under a strict config, 22/22 tests passing — but the central error handler defaulted every non-`AppError` to 500, reintroducing the exact bug already flagged and fixed on 0001 (verified: malformed-JSON body returned 500 even though `body-parser`'s own error already carries `statusCode: 400`), plus a secondary non-blocking gap where `ReservasService`/`ReservasRepository` returned live internal object references instead of defensive copies. **Both fixed same day by Claude Code at the user's request** (not a learner resubmission) — 25/25 tests passing after the fix. See `log.md` for the full diff and the bookkeeping note: this fix does NOT count toward the learner's own `centralized error handling` promotion streak, since the learner didn't write it.
 
 ## This phase's distribution
 - 🔵 Primary: TypeScript (rotates to React/Next once TS reaches a stable 🟨)
@@ -22,9 +22,9 @@
 | React/Next | components + basic hooks | 🟥 | — | 0/3 |
 | React/Next | App Router (server/client components) | 🟥 | — | 0/3 |
 | React/Next | data fetching + Server Actions | 🟥 | — | 0/3 |
-| Node | basic REST + layered structure | 🟥 | 2026-07-09 (0001 api-tareas-soporte fix, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟩, 0001-fix 🟩 — need 2 more consecutive 🟩 on a NEW exercise to qualify for `level up`) |
+| Node | basic REST + layered structure | 🟥 | 2026-07-16 (0002 reservas-stock, layering/business-logic dimensions all 🟩-quality, but overall exercise verdict 🟨 — see `log.md`) | 1/3 at 🟩 (0001 🟩, 0001-fix 🟩 — need 2 more consecutive 🟩 on a NEW exercise; 0002 doesn't count toward this since its overall verdict is 🟨) |
 | Node | auth (JWT) | 🟥 | — | 0/3 |
-| Node | centralized error handling | 🟥 | — | 0/3 |
+| Node | centralized error handling | 🟥 | 2026-07-16 (0002 reservas-stock — hierarchy/design solid, but implementation regressed the malformed-body→500 bug already fixed on 0001; Claude Code applied the fix same day at the user's request, not the learner — see `log.md`) | 0/3 (still no learner-authored 🟩 on this skill; the code is now correct, but that was Claude's fix, not a demonstration by the learner — assign a fresh exercise targeting this) |
 | SQL | SELECT/JOIN/aggregations | 🟥 | — | 0/3 |
 | Python | syntax + basic typing | 🟥 | — | 0/3 |
 | Fundamentals | Git (branches, rebase) | 🟥 | 2026-07-10 (0001 rebase-sin-panico, 🟩 — see `log.md`) | 1/3 at 🟩 (0001 🟩 — need 2 more consecutive 🟩 to qualify for `level up`) |
